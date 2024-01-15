@@ -21,12 +21,10 @@ str_constraints = [
     "Ms Brown is exactly to the left of Julie.",
     "The youngest woman likes Penne.",
     "Ms Wilson is wearing the White shirt.",
-    "The woman who likes Lasagne is somewhere between the woman who likes Italian wines and the woman who likes Spaghetti, in that order."
+    "The woman who likes Lasagne is somewhere between the woman who likes Italian wines and the woman who likes Spaghetti, in that order.",
     "At the second position is the woman wearing the Blue shirt.",
     "The 40-year-old woman likes Lasagne.",
     "Ms Lopes is at the fifth position.",
     "The woman that likes Australian wines is somewhere between Victoria and the woman who likes wines from Bordeaux, in that order.",
     "The woman wearing the Yellow shirt is exactly to the left of the 35-year-old woman.",
-    # La reponse du solveur a une contrainte de plus donc j'ai temporairement ajouté MISSING
-    "MISSING",
 ]

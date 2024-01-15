@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, request
 from app.model.zebra.solver import solve
-from app import app
 from app.model.zebra.constraints import str_constraints
 
 from app.validation.zebra import ZebraSchema
