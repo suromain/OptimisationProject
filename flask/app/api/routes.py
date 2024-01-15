@@ -5,7 +5,9 @@ from app.model.zebra.constraints import str_constraints
 from minizinc import Instance, Model, Solver
 
 from app.validation.zebra import ZebraSchema
+
 from app.validation.personal_computer import PersonalComputerSchema
+from app.model.a_new_personal_computer.constraints import str_constraints
 
 api_blueprint = Blueprint("api_blueprint", __name__)
 
@@ -44,11 +46,17 @@ def personal_computer ():
     problem = Model("./app/model/a_new_personal_computer/model.mzn")
     instance = Instance(gecode, problem)
 
-    instance["processor"] = user_solution["processors"],
-    instance["price"] = user_solution["prices"],
-    instance["monitor"] = user_solution["monitors"],
-    instance["hardDisk"] = user_solution["hardDisks"],
-    print(user_solution)
-    print(vars (instance))
+    instance["processor"] = user_solution["processors"]
+    instance["price"] = user_solution["prices"]
+    instance["monitor"] = user_solution["monitors"]
+    instance["hardDisk"] = user_solution["hardDisks"]
     result = instance.solve()
-    return result.solution.constraints
+    resultHints = result.solution.hints
+
+    response = []
+    for i in range (len(resultHints)):
+        response.append(
+            {"success": resultHints[i], "constraint": str_constraints[i]}
+        )
+        
+    return jsonify(response), 200
