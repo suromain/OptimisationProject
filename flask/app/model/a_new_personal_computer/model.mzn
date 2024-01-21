@@ -8,10 +8,10 @@ set of int: MONITORS = {130, 150, 156, 215, 270}; % Multiplié par 10 pour conve
 set of int: HARD_DISK = {250, 320, 500, 750, 1024};
 
 % Variables
-array[COMPUTERS] of var PROCESSORS: processor;
-array[COMPUTERS] of var PRICES: price;
-array[COMPUTERS] of var MONITORS: monitor;
-array[COMPUTERS] of var HARD_DISK: hardDisk;
+array[COMPUTERS] of PROCESSORS: processor;
+array[COMPUTERS] of PRICES: price;
+array[COMPUTERS] of MONITORS: monitor;
+array[COMPUTERS] of HARD_DISK: hardDisk;
 
 int: nbConstraint = 16;
 array[1..nbConstraint] of var bool: constraints;
@@ -91,6 +91,6 @@ hints = [
     constraints[15] /\ constraints[16],
 ];
 
-output ["["];
-output [show(hints[i]) ++ ", " | i in 1..5-1];
-output [show(hints[5]) ++ "]"];
+% output ["["];
+% output [show(hints[i]) ++ ", " | i in 1..5-1];
+% output [show(hints[5]) ++ "]"];

@@ -8,12 +8,12 @@ enum PASTA = {farfalle, lasagne, penne, spaghetti, ravioli};
 enum WINE = {australian, argentine,chilean, french, italian};
 set of int: AGE = {30, 35, 40, 45, 50};
 
-array[WOMAN] of var TSHIRT: tshirt;
-array[WOMAN] of var NAME: name;
-array[WOMAN] of var SURNAME: surname;
-array[WOMAN] of var PASTA: pasta;
-array[WOMAN] of var WINE: wine;
-array[WOMAN] of var AGE: age;
+array[WOMAN] of TSHIRT: tshirt;
+array[WOMAN] of NAME: name;
+array[WOMAN] of SURNAME: surname;
+array[WOMAN] of PASTA: pasta;
+array[WOMAN] of WINE: wine;
+array[WOMAN] of AGE: age;
 
 
 int: nbConstraint = 28;
@@ -51,9 +51,9 @@ constraints = [
 ];
 
 
-output ["["];
-output [show(constraints[i]) ++ ", " | i in 1..nbConstraint-1];
-output [show(constraints[nbConstraint]) ++ "]"];
+% output ["["];
+% output [show(constraints[i]) ++ ", " | i in 1..nbConstraint-1];
+% output [show(constraints[nbConstraint]) ++ "]"];
 
 
 
