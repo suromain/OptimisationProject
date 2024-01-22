@@ -32,8 +32,6 @@ def zebra():
         return jsonify(response), 200
     except Exception as e:
         return jsonify({"message": "Validation failed", "error": str(e)}), 400
-<<<<<<< Updated upstream
-=======
     
 @api_blueprint.route("/personal-computer", methods=["POST"])
 def personal_computer ():
@@ -51,4 +49,3 @@ def personal_computer ():
     instance["hardDisk"] = user_solution["hardDisks"]
     result = instance.solve()
     return result.solution.hints
->>>>>>> Stashed changes
