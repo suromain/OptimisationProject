@@ -27,11 +27,14 @@ function PersonalComputer() {
 
   return (
     <div>
-      <table>
-        <caption>A New Personal Computer</caption>
-        <tbody className="left-side">
+      <div className="main-grid">
+        <table>
+          {/*<caption>A New Personal Computer</caption>*/}
+          <tbody className="void">
+          </tbody>
+          <tbody className="left-side">
           <tr>
-            <th rowSpan={5}><p>Monitor</p></th>
+            <th rowSpan={5}><span>Monitor</span></th>
             <td>13'</td>
           </tr>
           <tr>
@@ -46,10 +49,10 @@ function PersonalComputer() {
           <tr>
             <td>27'</td>
           </tr>
-        </tbody>
-        <tbody className="left-side">
+          </tbody>
+          <tbody className="left-side">
           <tr>
-            <th rowSpan={5}>Price</th>
+            <th rowSpan={5}><span>Price</span></th>
             <td>$ 699,00</td>
           </tr>
           <tr>
@@ -64,10 +67,10 @@ function PersonalComputer() {
           <tr>
             <td>$ 1.649,00</td>
           </tr>
-        </tbody>
-        <tbody className="left-side">
+          </tbody>
+          <tbody className="left-side">
           <tr>
-            <th rowSpan={5}>Hard Disk</th>
+            <th rowSpan={5}><span>Hard Disk</span></th>
             <td>250 Gb</td>
           </tr>
           <tr>
@@ -82,8 +85,279 @@ function PersonalComputer() {
           <tr>
             <td>1024 Gb</td>
           </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+        <table>
+          <tbody className="top-side">
+          <tr>
+            <th colSpan={5}>Processor</th>
+          </tr>
+          <tr>
+            <td><span>2.0 MHZ</span></td>
+            <td><span>2.3 MHZ</span></td>
+            <td><span>2.5 MHZ</span></td>
+            <td><span>2.7 MHZ</span></td>
+            <td><span>3.1 MHZ</span></td>
+          </tr>
+          </tbody>
+          <tbody className="clickable">
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          </tbody>
+          <tbody className="clickable">
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          </tbody>
+          <tbody className="clickable">
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          </tbody>
+        </table>
+        <table>
+          <tbody className="top-side">
+          <tr>
+            <th colSpan={5}>Hard Disk</th>
+          </tr>
+          <tr>
+            <td><span>250 Gb</span></td>
+            <td><span>320 Gb</span></td>
+            <td><span>500 Gb</span></td>
+            <td><span>750 Gb</span></td>
+            <td><span>1024 Gb</span></td>
+          </tr>
+          </tbody>
+          <tbody className="clickable">
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          </tbody>
+          <tbody className="clickable">
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          </tbody>
+          <tbody className="void">
+          </tbody>
+        </table>
+        <table>
+          <tbody className="top-side">
+          <tr>
+            <th colSpan={5}>Price</th>
+          </tr>
+          <tr>
+            <td><span>$ 699,00</span></td>
+            <td><span>$ 999,00</span></td>
+            <td><span>$ 1.148,00</span></td>
+            <td><span>$ 1.349,00</span></td>
+            <td><span>$ 1.649,00</span></td>
+          </tr>
+          </tbody>
+          <tbody className="clickable">
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          </tbody>
+          <tbody className="void">
+          </tbody>
+          <tbody className="void">
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
