@@ -1,0 +1,20 @@
+.zebra_container {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.zebra_select_list {
+    display: flex;
+    flex-direction: row;
+    gap: 1vw
+}
+
+.zebra_select_list select {
+    flex: 1;
+}
+
+.zebra_select_list label {
+    text-align: left;
+    flex: 1;
+}

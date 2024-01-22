@@ -4,13 +4,13 @@ import { ZebraSolution } from "../types/ZebraSolution";
 import { PersonalComputerSolution } from "../types/PersonalComputerSolution";
 
 const client = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "http://localhost:8080",
 });
 
 const sdk = {
   zebra: {
     checkSolution: async (solution: ZebraSolution): Promise<SolverResponse> => {
-      const { data } = await client.post("/zebra", solution);
+      const { data } = await client.post("/api/zebra", solution);
       return data;
     },
   },
@@ -18,7 +18,7 @@ const sdk = {
     checkSolution: async (
       solution: PersonalComputerSolution
     ): Promise<SolverResponse> => {
-      const { data } = await client.post("/personal-computer", solution);
+      const { data } = await client.post("/api/personal-computer", solution);
       return data;
     },
   },
