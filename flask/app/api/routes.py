@@ -1,18 +1,16 @@
 from flask import Blueprint, jsonify, request
-from app.model.zebra.solver import solve
-from app.model.zebra.constraints import str_constraints
-from minizinc import Instance, Model, Solver
+from app.model.zebra.solver import solve as solve_zebra
+from app.model.zebra.constraints import str_constraints as zebra_constraints
 from minizinc import MiniZincError
 
-from app.model.a_new_personal_computer.constraints import str_constraints
+from app.model.a_new_personal_computer.constraints import (
+    str_constraints as computer_constraints,
+)
 from app.model.a_new_personal_computer.solver import solve as solve_pc
-from app.model.zebra.constraints import str_constraints
-from app.model.zebra.solver import solve as solve_zebra
 from app.validation.personal_computer import PersonalComputerSchema
+
 from app.validation.zebra import ZebraSchema
 
-from app.validation.personal_computer import PersonalComputerSchema
-from app.model.a_new_personal_computer.constraints import str_constraints
 
 from app.validation.bonus import (
     CustomCreateSchema,
@@ -20,8 +18,6 @@ from app.validation.bonus import (
     CustomGetShortSchema,
     CustomGetDetailedSchema,
     CustomContent,
-    ConstraintSchema,
-    Constraint,
     CustomAnswer,
     CustomAnswerSchema,
     CustomContentSchema,
@@ -32,6 +28,10 @@ from marshmallow import ValidationError
 
 from app.db.db import get_db
 import json
+from app.model.movie_buff.constraints import str_constraints as movie_constraints
+from app.model.movie_buff.solver import solve as solve_movie
+from app.validation.movie_buff import MovieBuffSchema
+
 
 from pprint import pprint
 
@@ -56,7 +56,7 @@ def zebra():
         response = []
         for i in range(success_statuses.__len__()):
             response.append(
-                {"success": success_statuses[i], "constraint": str_constraints[i]}
+                {"success": success_statuses[i], "constraint": zebra_constraints[i]}
             )
 
         return jsonify(response), 200
@@ -91,7 +91,7 @@ def personal_computer():
         response = []
         for i in range(success_statuses.__len__()):
             response.append(
-                {"success": success_statuses[i], "constraint": str_constraints[i]}
+                {"success": success_statuses[i], "constraint": computer_constraints[i]}
             )
 
         return jsonify(response), 200
@@ -107,29 +107,6 @@ def personal_computer():
         )
     except Exception as e:
         return jsonify({"message": "Validation failed", "error": str(e)}), 400
-
-
-@api_blueprint.route("/personal-computer", methods=["POST"])
-def personal_computer():
-    data = request.get_json()
-    schema = PersonalComputerSchema()
-    user_solution = schema.load(data)
-    gecode = Solver.lookup("gecode")
-    problem = Model("./app/model/a_new_personal_computer/model.mzn")
-    instance = Instance(gecode, problem)
-
-    instance["processor"] = user_solution["processors"]
-    instance["price"] = user_solution["prices"]
-    instance["monitor"] = user_solution["monitors"]
-    instance["hardDisk"] = user_solution["hardDisks"]
-    result = instance.solve()
-    resultHints = result.solution.hints
-
-    response = []
-    for i in range(len(resultHints)):
-        response.append({"success": resultHints[i], "constraint": str_constraints[i]})
-
-    return jsonify(response), 200
 
 
 @api_blueprint.route("/custom-puzzle", methods=["GET"])
@@ -251,3 +228,37 @@ def submit_answer_custom_puzzle(id: int):
     print(f"result : {result}")
 
     return ({"correct": result}, 200)
+
+
+@api_blueprint.route("/movie-buff", methods=["POST"])
+def movie_buff():
+    try:
+        data = request.get_json()
+        schema = MovieBuffSchema()
+        user_solution = schema.load(data)
+        success_statuses = solve_movie(
+            user_solution["members"],
+            user_solution["movies"],
+            user_solution["days"],
+            user_solution["hours"],
+        )
+
+        response = []
+        for i in range(success_statuses.__len__()):
+            response.append(
+                {"success": success_statuses[i], "constraint": movie_constraints[i]}
+            )
+
+        return jsonify(response), 200
+    except MiniZincError as e:
+        return (
+            jsonify(
+                {
+                    "message": "An error occurred when charging the MiniZinc model",
+                    "error": str(e),
+                }
+            ),
+            500,
+        )
+    except Exception as e:
+        return jsonify({"message": "Validation failed", "error": str(e)}), 400
