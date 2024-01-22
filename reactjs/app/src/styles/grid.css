@@ -1,0 +1,47 @@
+/*.left-side {*/
+/*    th {*/
+/*        text-align:center;*/
+/*        white-space:nowrap;*/
+/*        transform-origin:50% 50%;*/
+/*        transform: rotate(-90deg);*/
+/*        background-color: white;*/
+/*        color: black;*/
+/*    }*/
+
+/*    th:before {*/
+/*        content:'';*/
+/*        padding-top:110%;!* takes width as reference, + 10% for faking some extra padding *!*/
+/*        display:inline-block;*/
+/*        vertical-align:middle;*/
+/*    }*/
+/*}*/
+
+
+
+table {
+    text-align: center;
+    table-layout: fixed;
+    border: 1px solid white;
+    border-collapse: collapse;
+
+    .left-side {
+        tr {
+            border: 1px solid white;
+            border-collapse: collapse;
+
+            th {
+                text-align: center;
+                white-space: nowrap;
+                transform: rotate(-90deg);
+                border: inherit;
+                border-collapse: inherit;
+            }
+
+            td {
+                width: 7em;
+                text-align: right;
+                padding-right: 0.5em;
+            }
+        }
+    }
+}
