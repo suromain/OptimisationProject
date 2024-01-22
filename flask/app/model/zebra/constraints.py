@@ -1,4 +1,4 @@
-str_constraints = [
+zebra_constraints = [
     "Each woman has a different tshirt.",
     "Each woman has a different name.",
     "Each woman has a different surname.",

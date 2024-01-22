@@ -1,4 +1,4 @@
-str_constraints = [
+movie_buff_constraints = [
     "0. All different",
     "1. 1. Of the 20-hundreds releases, neither of which was Jessica's choice, one opened the week and one closed the week.",
     "2. The latest of the 19-hundreds releases was shown at 30 minutes past the hour.",

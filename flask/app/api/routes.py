@@ -1,13 +1,12 @@
 from flask import Blueprint, jsonify, request
 from app.model.zebra.solver import solve as solve_zebra
-from app.model.zebra.constraints import str_constraints as zebra_constraints
+from app.model.zebra.constraints import zebra_constraints
 from minizinc import MiniZincError
 
-from app.model.a_new_personal_computer.constraints import (
-    str_constraints as computer_constraints,
-)
+from app.model.a_new_personal_computer.constraints import pc_constraints
 from app.model.a_new_personal_computer.solver import solve as solve_pc
 from app.validation.personal_computer import PersonalComputerSchema
+
 
 from app.validation.zebra import ZebraSchema
 
@@ -28,7 +27,7 @@ from marshmallow import ValidationError
 
 from app.db.db import get_db
 import json
-from app.model.movie_buff.constraints import str_constraints as movie_constraints
+from app.model.movie_buff.constraints import movie_buff_constraints
 from app.model.movie_buff.solver import solve as solve_movie
 from app.validation.movie_buff import MovieBuffSchema
 
@@ -91,7 +90,7 @@ def personal_computer():
         response = []
         for i in range(success_statuses.__len__()):
             response.append(
-                {"success": success_statuses[i], "constraint": computer_constraints[i]}
+                {"success": success_statuses[i], "constraint": pc_constraints[i]}
             )
 
         return jsonify(response), 200
@@ -246,7 +245,10 @@ def movie_buff():
         response = []
         for i in range(success_statuses.__len__()):
             response.append(
-                {"success": success_statuses[i], "constraint": movie_constraints[i]}
+                {
+                    "success": success_statuses[i],
+                    "constraint": movie_buff_constraints[i],
+                }
             )
 
         return jsonify(response), 200
