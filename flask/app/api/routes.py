@@ -32,3 +32,23 @@ def zebra():
         return jsonify(response), 200
     except Exception as e:
         return jsonify({"message": "Validation failed", "error": str(e)}), 400
+<<<<<<< Updated upstream
+=======
+    
+@api_blueprint.route("/personal-computer", methods=["POST"])
+def personal_computer ():
+    data = request.get_json()
+    schema = PersonalComputerSchema()
+    user_solution = schema.load(data)
+    gecode = Solver.lookup("gecode")
+    problem = Model("./app/model/a_new_personal_computer/model.mzn")
+
+    instance = Instance(gecode, problem)
+
+    instance["processor"] = user_solution["processors"]
+    instance["price"] = user_solution["prices"]
+    instance["monitor"] = user_solution["monitors"]
+    instance["hardDisk"] = user_solution["hardDisks"]
+    result = instance.solve()
+    return result.solution.hints
+>>>>>>> Stashed changes
