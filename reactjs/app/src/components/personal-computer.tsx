@@ -99,9 +99,9 @@ function PersonalComputer() {
             const columns: Array<ReactElement> = [];
 
             for (let j = 0; j < width; j++)
-              columns.push(<td onPointerEnter={() => setOveredCell([matrix, i, j])}></td>);
+              columns.push(<td onPointerEnter={() => setOveredCell([matrix, i, j])} key={j}></td>);
 
-            rows.push(<tr>{columns}</tr>);
+            rows.push(<tr key={i}>{columns}</tr>);
           }
 
           return rows;
@@ -120,9 +120,9 @@ function PersonalComputer() {
             const columns: Array<ReactElement> = [];
 
             for (let j = 0; j < width; j++)
-              columns.push(<td></td>);
+              columns.push(<td key={j}></td>);
 
-            rows.push(<tr>{columns}</tr>);
+            rows.push(<tr key={i}>{columns}</tr>);
           }
 
           return rows;
