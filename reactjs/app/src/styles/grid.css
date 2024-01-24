@@ -6,9 +6,12 @@
     table {
         text-align: center;
         table-layout: fixed;
-        border: 1px solid black;
         border-collapse: collapse;
         width: 10em;
+
+        .overed {
+            background-color: #bbd4ff;
+        }
 
         th {
             color: white;
@@ -80,16 +83,29 @@
         }
 
         .clickable {
+            width: 10em;
+            height: 10em;
+
             tr {
+                height: 20%;
                 border: 2px solid black;
                 border-collapse: collapse;
 
                 td {
-                    width: 20%;
-                    height: 20%;
                     cursor: pointer;
                     border: 2px solid black;
                     border-collapse: collapse;
+                    padding: 0;
+
+                    div {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        img {
+                            width: 60%;
+                        }
+                    }
                 }
 
                 td:hover {
