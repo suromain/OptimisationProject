@@ -1,3 +1,3 @@
-clients = ["Bob", "Alice", "Jane"]
-films = ["Film1", "Film2", "Film3"]
-sweets = ["popcorn", "malteser", "twix"]
+personnes = ["Bob", "Alice", "Jane"]
+lieux = ["Gare", "Aeroport", "Port"]
+objets = ["Cles", "Tournevis", "Lunettes"]

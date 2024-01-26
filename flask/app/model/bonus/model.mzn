@@ -1,17 +1,20 @@
 include "globals.mzn";
 
 % Ensembles
-set of int: CLIENTS = 1..3;
-enum CLIENT = {Bob, Alice, Jane};
-enum FILM = {Film1,Film2, Film3};
-enum SWEET = {popcorn, malteser, twix};
+set of int: SOLUTIONS = 1..3;
+enum PERSONNE = {Bob, Alice, Jane};
+enum LIEU = {Gare,Aeroport,Port};
+enum OBJET = {Cles, Tournevis, Lunettes};
 
 % Variables
-array[CLIENTS] of var CLIENT: clients;
-array[CLIENTS] of var FILM: films;
-array[CLIENTS] of var SWEET: sweets;
+array[SOLUTIONS] of var PERSONNE: personnes;
+array[SOLUTIONS] of var LIEU: lieux;
+array[SOLUTIONS] of var OBJET: objets;
 
 
-constraint all_different(clients),
-constraint all_different(films),
-constraint all_different(sweets)
+constraint all_different(personnes);
+constraint all_different(lieux);
+constraint all_different(objets);
+
+constraint exists(a in SOLUTIONS)( personnes[a] == Jane \/ ( lieux[a] != Gare ));
+constraint exists(a in SOLUTIONS)( not (lieux[a] != Aeroport -> ( objets[a] == Tournevis )));
