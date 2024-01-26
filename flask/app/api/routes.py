@@ -8,8 +8,8 @@ from app.validation.zebra import ZebraSchema
 from app.validation.personal_computer import PersonalComputerSchema
 from app.model.a_new_personal_computer.constraints import str_constraints
 
-from app.validation.bonus import CustomCreateSchema, CustomCreate, CustomGetShortSchema, CustomGetDetailedSchema
-from app.model.bonus.solver import create_instance
+from app.validation.bonus import CustomCreateSchema, CustomCreate, CustomGetShortSchema, CustomGetDetailedSchema, ConstraintSchema, Constraint, CustomAnswser, CustomAnwserSchema
+from app.model.bonus.solver import create_and_solve
 
 from marshmallow import ValidationError
 
@@ -110,6 +110,7 @@ custom_get_detailed_schema = CustomGetDetailedSchema()
 @api_blueprint.route("/custom-puzzle/<int:id>", methods=["GET"])
 def get_details_custom_puzzle(id : int):
     db = get_db()
+    
     puzzle_details = db.execute(
         'SELECT id, name, description, content FROM custom_puzzle WHERE id = ?', (id,)
         ).fetchone()
@@ -123,7 +124,7 @@ def get_details_custom_puzzle(id : int):
 
 
 @api_blueprint.route("/custom-puzzle/<int:id>", methods=["DELETE"])
-def get_delete_custom_puzzle(id : int):
+def delete_custom_puzzle(id : int):
     db = get_db()
     puzzle_id = db.execute(
         'SELECT id FROM custom_puzzle WHERE id = ?', (id,)
@@ -140,3 +141,29 @@ def get_delete_custom_puzzle(id : int):
     db.commit()
     
     return ("", 204)
+
+constraint_schema = ConstraintSchema()
+custom_answer_schema = CustomAnwserSchema()
+
+@api_blueprint.route("/custom-puzzle/<int:id>", methods=["POST"])
+def submit_anwser_custom_puzzle(id : int):
+    json_data = request.get_json()
+    if not json_data:
+        return {"message": "No input data provided"}, 400
+    try:
+        data : CustomAnswser = custom_answer_schema.load(json_data)
+    except ValidationError as err:
+        return err.messages, 422 
+
+    db = get_db()
+    puzzle_details = db.execute(
+    'SELECT id, content FROM custom_puzzle WHERE id = ?', (id,)
+    ).fetchone()
+    
+    if puzzle_details is None:
+        return ("No puzzle with this id", 404)
+    
+    constraints : list[Constraint] = constraint_schema.load(json.loads(puzzle_details['content']), many=True)
+
+    return ({"correct" : create_and_solve(answer=data, constraints=constraints)}, 200)
+        

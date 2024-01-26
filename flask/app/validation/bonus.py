@@ -89,6 +89,12 @@ class ConstraintSchema(Schema):
         return Constraint(**data)
 
 
+class CustomAnswser():
+    def __init__(self, personnes : list[str], lieux : list[str], objets : list[str]):
+        self.personnes = personnes
+        self.lieux = lieux
+        self.objets = objets
+
 class CustomAnwserSchema(Schema):
     personnes = fields.List(
         fields.Str(validate=validate.OneOf(allowed_personnes)),
@@ -108,6 +114,11 @@ class CustomAnwserSchema(Schema):
         required=True
     )
 
+    @post_load
+    def make_anwser(self, data, **kwargs):
+        return CustomAnswser(**data)
+
+
 class CustomGetShortSchema(Schema):
     id = fields.Int(required=True)
     name = fields.Str(required=True)
@@ -117,17 +128,9 @@ class CustomCreate():
     def __init__(self, name: str, description : str, constraints : list[Constraint]):
         self.name = name
         self.description = description
+      
         self.constraints = constraints
         
-
-class CustomGetDetailedSchema(Schema):
-    id = fields.Int(required=True)
-    name = fields.Str(required=True)
-    description = fields.Str(required=False)
-    constraints = fields.List(
-            fields.Nested(ConstraintSchema), 
-            required=True)    
-
 
 class CustomCreateSchema(Schema):
     name = fields.Str(required=True)
@@ -143,4 +146,10 @@ class CustomCreateSchema(Schema):
         return CustomCreate(**data)
 
     
-        
+class CustomGetDetailedSchema(Schema):
+    id = fields.Int(required=True)
+    name = fields.Str(required=True)
+    description = fields.Str(required=False)
+    constraints = fields.List(
+            fields.Nested(ConstraintSchema), 
+            required=True)
