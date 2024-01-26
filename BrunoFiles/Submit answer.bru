@@ -1,0 +1,19 @@
+meta {
+  name: Submit answer
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/custom-puzzle/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "personnes" : ["Bob", "Alice", "Jane"],
+    "lieux" : ["Gare", "Aeroport", "Port"],
+    "objets" : ["Cles", "Tournevis", "Lunettes"]
+  }
+}
