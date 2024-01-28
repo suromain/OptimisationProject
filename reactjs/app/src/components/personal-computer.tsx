@@ -4,28 +4,29 @@
 // import {PersonalComputerSolution} from "../types/PersonalComputerSolution.ts";
 
 import "../styles/grid.css"
-// import tick from "../assets/tick.svg"
-// import cross from "../assets/cross.svg"
+import tick from "../assets/tick.svg"
+import cross from "../assets/cross.svg"
 import {ReactElement, useEffect, useState} from "react";
-// import {GridCellMatrix} from "../types/GridCellMatrix.ts";
+import {GridCellMatrix} from "../classes/GridCellMatrix.ts";
+import {CellState} from "../types/CellState.ts";
 
 
 function PersonalComputer() {
-  // Index 0-2: first column, index 3-4: second column, index 6: third column
   const height: number = 5;
   const width: number = 5;
-  // const [puzzleGrid]
-  //   = useState<Array<GridCellMatrix>>(new Array<GridCellMatrix>(6).fill(new GridCellMatrix(height, width)));
 
-  const [overTrigger, setOverTrigger] = useState<boolean>(false);
+  // Index 0-2: first column, index 3-4: second column, index 6: third column
+  const [puzzleGrid, setPuzzleGrid]
+    = useState<Array<GridCellMatrix>>(() => {
+    const puzzleGrid = new Array<GridCellMatrix>(6);
+
+    for (let i = 0; i < 6; i++)
+      puzzleGrid[i] = new GridCellMatrix(height, width);
+
+    return puzzleGrid;
+  });
+
   const [overedCell, setOveredCell] = useState<Array<number>>([-1, -1, -1]);
-
-  useEffect(() => {
-    if (overTrigger) {
-      console.log("overed");
-      setOverTrigger(false);
-    }
-  }, [overTrigger]);
 
   function rowCellOvered(matrixRow: number, labelRow: number): boolean {
     if (matrixRow === 0)
@@ -89,6 +90,19 @@ function PersonalComputer() {
     );
   }
 
+  function getCellContent(matrix: number, row: number, column: number): ReactElement {
+    const cellState = puzzleGrid[matrix].getCellState(row, column);
+
+    if (cellState === CellState.EMPTY)
+      return <></>;
+    else if (cellState === CellState.CROSSED || cellState === CellState.DISABLED || cellState === CellState.CROSSED_AND_DISABLED)
+      return <div><img src={cross} alt="Red cross"/></div>
+    else if (cellState === CellState.TICKED)
+      return <div><img src={tick} alt="Green tick"/></div>
+    else
+      throw new Error("Invalid cell state");
+  }
+
   function generateClickableMatrix(matrix: number): ReactElement {
     return (
       <tbody className="clickable">
@@ -99,7 +113,14 @@ function PersonalComputer() {
             const columns: Array<ReactElement> = [];
 
             for (let j = 0; j < width; j++)
-              columns.push(<td onPointerEnter={() => setOveredCell([matrix, i, j])} key={j}></td>);
+              columns.push(<td  key={j}
+                onPointerEnter={() => setOveredCell([matrix, i, j])}
+                onClick={() => {
+                  puzzleGrid[matrix].changeCellState(i, j);
+                  setPuzzleGrid([...puzzleGrid]);
+                }}>
+                {getCellContent(matrix, i, j)}
+              </td>);
 
             rows.push(<tr key={i}>{columns}</tr>);
           }

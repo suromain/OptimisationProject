@@ -1,0 +1,7 @@
+export enum CellState {
+  EMPTY,
+  CROSSED,
+  TICKED,
+  DISABLED,
+  CROSSED_AND_DISABLED
+}
