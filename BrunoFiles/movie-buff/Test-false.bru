@@ -1,0 +1,20 @@
+meta {
+  name: Test-false
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/movie-buff
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "members" :["Sally", "Mark", "Jessica", "Laurie", "Mary"],
+    "movies" : ["Minutes88","Scarecrow","DonnieBrasco","Scarface", "TheRecruit"],
+    "days" : ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    "hours" : [80, 105, 90, 40, 35]
+  }
+}

@@ -1,0 +1,20 @@
+meta {
+  name: Test-False
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/personal-computer
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "processors" :[25, 20, 23, 27, 31],
+    "prices" : [1349, 999, 699, 1149, 1649],
+    "monitors" : [156, 130, 150, 215, 270],
+    "hardDisks" : [500, 320, 250, 1024, 750]
+  }
+}
