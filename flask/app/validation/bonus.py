@@ -1,5 +1,5 @@
 from marshmallow import Schema, fields, validate, post_load
-from enum import StrEnum
+from enum import Enum
 from typing import Optional, Callable
 from app.model.bonus.params import (
     personnes as allowed_personnes, 
@@ -8,7 +8,7 @@ from app.model.bonus.params import (
 )
 
 
-class Comparator(StrEnum):
+class Comparator(Enum):
     EQ = "EQ"
     NEQ = "NEQ"
 
@@ -20,7 +20,7 @@ class Comparator(StrEnum):
             case Comparator.NEQ:
                 return "!="
 
-class Connector(StrEnum):
+class Connector(Enum):
     AND = "AND"
     OR = "OR"
     IMPLIES = "IMPLIES"

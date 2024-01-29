@@ -4,7 +4,7 @@ services:
   back:
     build:
       context: ./flask
-      dockerfile: ../docker/dev.back.Dockerfile    
+      dockerfile: ../docker/dev.backend.Dockerfile    
     volumes:
       - .:/usr/src
     ports:
