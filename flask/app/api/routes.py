@@ -32,8 +32,6 @@ from app.model.movie_buff.solver import solve as solve_movie
 from app.validation.movie_buff import MovieBuffSchema
 
 
-from pprint import pprint
-
 api_blueprint = Blueprint("api_blueprint", __name__)
 
 

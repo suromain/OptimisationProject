@@ -12,7 +12,7 @@ const ZebraHints: FC<Props> = ({ response }) => {
       {response.map((item) => (
         <p
           key={item.constraint}
-          style={{ color: item.success ? "green" : "red" }}
+          style={{ textDecoration: item.success ? "line-through" : undefined }}
           className="hint_item"
         >
           {item.constraint}
