@@ -163,6 +163,7 @@ def submit_anwser_custom_puzzle(id : int):
     if puzzle_details is None:
         return ("No puzzle with this id", 404)
     
+    print(f"Solving the puzzle {id}")
     constraints : list[Constraint] = constraint_schema.load(json.loads(puzzle_details['content']), many=True)
 
     return ({"correct" : create_and_solve(answer=data, constraints=constraints)}, 200)

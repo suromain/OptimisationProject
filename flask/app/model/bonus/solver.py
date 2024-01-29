@@ -19,7 +19,13 @@ def create_and_solve(constraints : list[Constraint], answer : CustomAnswser) -> 
 def create_instance(constraints : list[Constraint]) -> Instance:
     gecode = Solver.lookup("gecode")
     problem = Model("./app/model/bonus/model.mzn")
-  
+
+    constraints_str = "\n".join([constraints_to_str(constraint) for constraint in constraints])
+
+    print(f"Using the constraints : \n{constraints_str}")
+    
+    problem.add_string(constraints_str)
+
     instance = Instance(gecode, problem)
 
     return instance
