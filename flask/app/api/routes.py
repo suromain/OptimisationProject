@@ -144,7 +144,7 @@ def create_custom_puzzle():
     db.commit()
 
     # create_instance(data.constraints)
-    return {"id": result.lastrowid}, 200
+    return {"id": result.lastrowid}, 201
 
 
 custom_get_detailed_schema = CustomGetDetailedSchema()

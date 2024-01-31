@@ -7,6 +7,7 @@ import Error from "./components/error.tsx";
 import Home from "./components/home.tsx";
 import PersonalComputer from "./components/personal-computer.tsx";
 import Zebra from "./components/zebra/Zebra.tsx";
+import CustomProblem from "./components/custom/CustomProblem.tsx";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/puzzle/personal-computer",
         element: <PersonalComputer />,
+      },
+      {
+        path: "/custom/:id",
+        element: <CustomProblem />,
       },
     ],
   },

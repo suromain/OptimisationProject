@@ -27,8 +27,13 @@ export function Header() {
               <span> Movie Buffs Puzzle </span>
             </a>
           </li>
+          <li>
+            <a href={"/custom/new"} className="header-link">
+              <span> Create puzzle </span>
+            </a>
+          </li>
         </ul>
       </div>
     </>
-  )
+  );
 }
