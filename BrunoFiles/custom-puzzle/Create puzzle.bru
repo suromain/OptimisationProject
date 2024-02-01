@@ -1,0 +1,77 @@
+meta {
+  name: Create puzzle
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/custom-puzzle
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Premier puzzle !",
+    "description": "un bon début",
+    "constraints": [
+      {
+        "negative": false,
+        "atom": {
+          "comparator": "EQ",
+          "operand_type": "PERSONNE",
+          "operand": "Jane"
+        },
+        "next": {
+          "connector": "OR",
+          "constraint": {
+            "negative": false,
+            "atom": {
+              "operand_type": "LIEU",
+              "comparator": "NEQ",
+              "operand": "Gare"
+            },
+            "next": null
+          }
+        }
+      },
+      {
+        "negative": true,
+        "atom": {
+          "comparator": "NEQ",
+          "operand": "Aeroport",
+          "operand_type": "LIEU"
+        },
+        "next": {
+          "connector": "IMPLIES",
+          "constraint": {
+            "negative": false,
+            "atom": {
+              "comparator": "EQ",
+              "operand": "Tournevis",
+              "operand_type": "OBJET"
+            },
+            "next": null
+          }
+        }
+      }
+    ],
+    "operands": {
+      "names": [
+        "salut",
+        "bonjour",
+        "hello"
+      ],
+      "places": [
+        "endroit",
+        "place",
+        "gare"
+      ],
+      "objects": [
+        "tournevis",
+        "lunettes",
+        "chaussure"
+      ]
+    }
+  }
+}
