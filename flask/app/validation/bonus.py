@@ -1,11 +1,21 @@
-from marshmallow import Schema, fields, validate, post_load
+from marshmallow import Schema, fields, validate, post_load, ValidationError, validates
 from enum import Enum
 from typing import Optional, Callable
-from app.model.bonus.params import (
-    personnes as allowed_personnes, 
-    lieux as allowed_lieux, 
-    objets as allowed_objets 
-)
+
+class OperandType(Enum):
+    PERSONNE = "PERSONNE"
+    LIEU = "LIEU"
+    OBJET = "OBJET"
+
+    
+    def to_minizinc_constraint(self) -> str:
+        match self:
+            case OperandType.PERSONNE:
+                return "personnes"
+            case OperandType.LIEU:
+                return "lieux"
+            case default: 
+                return "objets"
 
 
 class Comparator(Enum):
@@ -33,16 +43,42 @@ class Connector(Enum):
                 return "\/"
             case Connector.IMPLIES:
                 return "->"
-            
+
+class OperandList():
+    def __init__(self, names : list[str], objects : list[str], places : list[str]):
+        self.names = names
+        self.objects = objects
+        self.places = places
+
+class OperandListSchema(Schema):
+    names = fields.List(fields.Str(), validate=validate.Length(3), required=True)
+    objects = fields.List(fields.Str(), validate=validate.Length(3), required=True)
+    places = fields.List(fields.Str(), validate=validate.Length(3), required=True)
+
+    @validates("names")
+    @validates("places")
+    @validates("objects")
+    def no_duplicates(self, value : list[str]):
+        if len(value) != len(set(value)):
+            raise ValidationError("Il ne doit pas y avoir de valeur dupliquée.") 
+    
+    @post_load
+    def make_operand_list(self, data, **kwargs):
+        return OperandList(**data)
+
 
 class Atom():
-    def __init__(self, comparator : Comparator, operand : str):
+    def __init__(self, comparator : Comparator, operand : str, operand_type : OperandType):
         self.comparator = comparator
         self.operand = operand
+        self.operand_type = operand_type
 
 class AtomSchema(Schema):
-    comparator = fields.Enum(Comparator)
-    operand = fields.String()
+    
+    comparator = fields.Enum(Comparator, required=True)
+    operand = fields.String(required=True)
+    operand_type = fields.Enum(OperandType, required=True)
+
     @post_load
     def make_atom(self, data, **kwargs):
         return Atom(**data)
@@ -54,20 +90,20 @@ class Constraint():
         self.atom = atom
         self.next = next
     
-    def to_minizinc_constraint(self, var_name : str, reverse_array_searcher : Callable[str, str]) -> str:
+    def to_minizinc_constraint(self, var_name : str) -> str:
         next_value_str = ""
         if self.next is not None:
-            next_value_str = self.next.to_minizinc_constraint(var_name, reverse_array_searcher)
+            next_value_str = self.next.to_minizinc_constraint(var_name)
         
-        return f'{"not" if self.negative else ""} ({reverse_array_searcher(self.atom.operand)}[{var_name}] {self.atom.comparator.to_minizinc_constraint()} {self.atom.operand} {next_value_str})'
+        return f'{"not" if self.negative else ""} ({self.atom.operand_type.to_minizinc_constraint()}[{var_name}] {self.atom.comparator.to_minizinc_constraint()} {self.atom.operand} {next_value_str})'
 
 class Next():
     def __init__(self, connector : Connector, constraint : Constraint):
         self.connector = connector
         self.constraint = constraint
     
-    def to_minizinc_constraint(self, var_name : str, reverse_array_searcher : Callable[str, str]):
-        return f"{self.connector.to_minizinc_constraint()} {self.constraint.to_minizinc_constraint(var_name, reverse_array_searcher)}"
+    def to_minizinc_constraint(self, var_name : str):
+        return f"{self.connector.to_minizinc_constraint()} {self.constraint.to_minizinc_constraint(var_name)}"
 
 
 class NextSchema(Schema):
@@ -89,35 +125,47 @@ class ConstraintSchema(Schema):
         return Constraint(**data)
 
 
-class CustomAnswser():
+class CustomAnswer():
     def __init__(self, personnes : list[str], lieux : list[str], objets : list[str]):
         self.personnes = personnes
         self.lieux = lieux
         self.objets = objets
 
-class CustomAnwserSchema(Schema):
+class CustomAnswerSchema(Schema):
     personnes = fields.List(
-        fields.Str(validate=validate.OneOf(allowed_personnes)),
+        fields.Str(),
         validate=validate.Length(equal=3),
         required=True
     )
 
     lieux = fields.List(
-        fields.Str(validate=validate.OneOf(allowed_lieux)),
+        fields.Str(),
         validate=validate.Length(equal=3),
         required=True
     )
 
     objets = fields.List(
-        fields.Str(validate=validate.OneOf(allowed_objets)),
+        fields.Str(),
         validate=validate.Length(equal=3),
         required=True
     )
 
     @post_load
-    def make_anwser(self, data, **kwargs):
-        return CustomAnswser(**data)
+    def make_answer(self, data, **kwargs):
+        return CustomAnswer(**data)
 
+class CustomContent():
+    def __init__(self, constraints : list[Constraint], operands : OperandList):
+        self.constraints = constraints
+        self.operands = operands
+
+class CustomContentSchema(Schema):
+    constraints = fields.List(fields.Nested(ConstraintSchema)) 
+    operands = fields.Nested(OperandListSchema, required=True)  
+
+    @post_load
+    def make_content(self, data, **kwargs):
+        return CustomContent(**data)
 
 class CustomGetShortSchema(Schema):
     id = fields.Int(required=True)
@@ -125,11 +173,11 @@ class CustomGetShortSchema(Schema):
     description = fields.Str(required=False)
 
 class CustomCreate():
-    def __init__(self, name: str, description : str, constraints : list[Constraint]):
+    def __init__(self, name: str, description : str, constraints : list[Constraint], operands : OperandList):
         self.name = name
         self.description = description
-      
         self.constraints = constraints
+        self.operands = operands
         
 
 class CustomCreateSchema(Schema):
@@ -137,9 +185,8 @@ class CustomCreateSchema(Schema):
     description = fields.Str(required=False)
     constraints = fields.List(
             fields.Nested(ConstraintSchema), 
-            required=True)    
-    
-    # answer = fields.Nested(BonusAnwser)
+            required=True) 
+    operands = fields.Nested(OperandListSchema, required=True)
     
     @post_load
     def make_CustomCreate(self, data, **kwargs):
@@ -150,6 +197,5 @@ class CustomGetDetailedSchema(Schema):
     id = fields.Int(required=True)
     name = fields.Str(required=True)
     description = fields.Str(required=False)
-    constraints = fields.List(
-            fields.Nested(ConstraintSchema), 
-            required=True)
+    constraints = fields.List(fields.Nested(ConstraintSchema)) 
+    operands = fields.Nested(OperandListSchema, required=True)  

@@ -8,13 +8,15 @@ from app.validation.zebra import ZebraSchema
 from app.validation.personal_computer import PersonalComputerSchema
 from app.model.a_new_personal_computer.constraints import str_constraints
 
-from app.validation.bonus import CustomCreateSchema, CustomCreate, CustomGetShortSchema, CustomGetDetailedSchema, ConstraintSchema, Constraint, CustomAnswser, CustomAnwserSchema
+from app.validation.bonus import CustomCreateSchema, CustomCreate, CustomGetShortSchema, CustomGetDetailedSchema, CustomContent, ConstraintSchema, Constraint, CustomAnswer, CustomAnswerSchema, CustomContentSchema
 from app.model.bonus.solver import create_and_solve
 
 from marshmallow import ValidationError
 
 from app.db.db import get_db
 import json 
+
+from pprint import pprint
 
 api_blueprint = Blueprint("api_blueprint", __name__)
 
@@ -95,10 +97,14 @@ def create_custom_puzzle():
     except ValidationError as err:
         return err.messages, 422 
     
+    content = {"constraints" : json_data["constraints"], "operands" : json_data["operands"]}
+
     db = get_db()
+    
     result = db.execute(
-        'INSERT INTO custom_puzzle(name, description, content) VALUES (?,?,?)', (data.name, data.description, json.dumps(json_data['constraints']))
+        'INSERT INTO custom_puzzle(name, description, content) VALUES (?,?,?)', (data.name, data.description, json.dumps(content))
     )
+
     db.commit()
     
     # create_instance(data.constraints)
@@ -106,6 +112,7 @@ def create_custom_puzzle():
     
 
 custom_get_detailed_schema = CustomGetDetailedSchema()
+custom_content_schema = CustomContentSchema()
 
 @api_blueprint.route("/custom-puzzle/<int:id>", methods=["GET"])
 def get_details_custom_puzzle(id : int):
@@ -116,11 +123,17 @@ def get_details_custom_puzzle(id : int):
         ).fetchone()
     
     if puzzle_details is None:
-        return ("No puzzle with this id", 404)
+        return ("No puzzle with this id", 404) 
 
-    puzzle_response = custom_get_detailed_schema.dump(puzzle_details)
-    puzzle_response['constraints'] = json.loads(puzzle_details['content'])
-    return (puzzle_response, 200)
+    content = json.loads(puzzle_details['content'])
+
+    puzzle_prepare_response = {"id" : puzzle_details["id"],
+     "name" : puzzle_details["name"], 
+     "description" : puzzle_details["description"], 
+     "constraints" : content['constraints'], 
+     "operands" : content['operands']} 
+     
+    return (puzzle_prepare_response, 200)
 
 
 @api_blueprint.route("/custom-puzzle/<int:id>", methods=["DELETE"])
@@ -133,7 +146,6 @@ def delete_custom_puzzle(id : int):
     if puzzle_id is None:
         return ("No puzzle with this id", 404)
 
-
     db.execute(
         'DELETE FROM custom_puzzle WHERE id = ?', (id,)
     )
@@ -142,20 +154,21 @@ def delete_custom_puzzle(id : int):
     
     return ("", 204)
 
-constraint_schema = ConstraintSchema()
-custom_answer_schema = CustomAnwserSchema()
+custom_content_schema = CustomContentSchema()
+custom_answer_schema = CustomAnswerSchema()
 
 @api_blueprint.route("/custom-puzzle/<int:id>", methods=["POST"])
-def submit_anwser_custom_puzzle(id : int):
+def submit_answer_custom_puzzle(id : int):
     json_data = request.get_json()
     if not json_data:
         return {"message": "No input data provided"}, 400
     try:
-        data : CustomAnswser = custom_answer_schema.load(json_data)
+        data : CustomAnswer = custom_answer_schema.load(json_data)
     except ValidationError as err:
         return err.messages, 422 
 
     db = get_db()
+
     puzzle_details = db.execute(
     'SELECT id, content FROM custom_puzzle WHERE id = ?', (id,)
     ).fetchone()
@@ -164,7 +177,11 @@ def submit_anwser_custom_puzzle(id : int):
         return ("No puzzle with this id", 404)
     
     print(f"Solving the puzzle {id}")
-    constraints : list[Constraint] = constraint_schema.load(json.loads(puzzle_details['content']), many=True)
 
-    return ({"correct" : create_and_solve(answer=data, constraints=constraints)}, 200)
+    content : CustomContent = custom_content_schema.load(json.loads(puzzle_details['content']))
+
+    result = create_and_solve(answer=data, content=content)
+    print(f"result : {result}")
+
+    return ({"correct" : result}, 200)
         
