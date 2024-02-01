@@ -11,6 +11,7 @@ from app.validation.personal_computer import PersonalComputerSchema
 from app.validation.zebra import ZebraSchema
 
 
+<<<<<<< HEAD
 from app.validation.bonus import (
     CustomCreateSchema,
     CustomCreate,
@@ -21,6 +22,9 @@ from app.validation.bonus import (
     CustomAnswerSchema,
     CustomContentSchema,
 )
+=======
+from app.validation.bonus import CustomCreateSchema, CustomCreate, CustomGetShortSchema, CustomGetDetailedSchema, CustomContent, ConstraintSchema, Constraint, CustomAnswer, CustomAnswerSchema, CustomContentSchema
+>>>>>>> 6d68706 (feat : début variabilisation)
 from app.model.bonus.solver import create_and_solve
 
 from marshmallow import ValidationError
@@ -31,6 +35,8 @@ from app.model.movie_buff.constraints import movie_buff_constraints
 from app.model.movie_buff.solver import solve as solve_movie
 from app.validation.movie_buff import MovieBuffSchema
 
+
+from pprint import pprint
 
 api_blueprint = Blueprint("api_blueprint", __name__)
 
@@ -150,7 +156,6 @@ def create_custom_puzzle():
 custom_get_detailed_schema = CustomGetDetailedSchema()
 custom_content_schema = CustomContentSchema()
 
-
 @api_blueprint.route("/custom-puzzle/<int:id>", methods=["GET"])
 def get_details_custom_puzzle(id: int):
     db = get_db()
@@ -160,7 +165,7 @@ def get_details_custom_puzzle(id: int):
     ).fetchone()
 
     if puzzle_details is None:
-        return ("No puzzle with this id", 404)
+        return ("No puzzle with this id", 404) 
 
     content = json.loads(puzzle_details["content"])
 
