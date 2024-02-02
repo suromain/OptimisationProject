@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { SolverResponse } from "../../types/SolverResponse";
-import "./ZebraHints.css";
 
 interface Props {
   response: SolverResponse;
@@ -8,12 +7,19 @@ interface Props {
 
 const ZebraHints: FC<Props> = ({ response }) => {
   return (
-    <div className="hint_container">
+    <div style={{ display: "flex", flexWrap: "wrap", flexDirection: "row" }}>
       {response.map((item) => (
         <p
           key={item.constraint}
-          style={{ textDecoration: item.success ? "line-through" : undefined }}
-          className="hint_item"
+          style={{
+            textDecoration: item.success ? "line-through" : undefined,
+            flexGrow: 1,
+            flexBasis: "40%",
+            boxSizing: "border-box",
+            margin: "0px",
+            height: "40px",
+            marginRight: "5px",
+          }}
         >
           {item.constraint}
         </p>

@@ -153,7 +153,7 @@ function PersonalComputer() {
   }
 
   return (
-    <div>
+    <div style={{ display: "flex", justifyContent: "center" }}>
       <div className="main-grid" onPointerLeave={() => setOveredCell([-1, -1, -1])}>
         <table>
           <tbody className="void" onPointerEnter={() => setOveredCell([-1, -1, -1])}/>
