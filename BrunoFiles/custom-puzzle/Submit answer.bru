@@ -1,0 +1,30 @@
+meta {
+  name: Submit answer
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/custom-puzzle/3
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+        "personnes": [
+        "salut",
+        "bonjour",
+        "hello"
+      ],
+      "lieux": [
+        "endroit",
+        "place",
+        "gare"
+      ],
+      "objets": [
+        "tournevis",
+        "lunettes",
+        "chaussure"]
+  }
+}
