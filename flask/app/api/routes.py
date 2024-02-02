@@ -74,6 +74,11 @@ def zebra():
         return jsonify({"message": "Validation failed", "error": str(e)}), 400
 
 
+@api_blueprint.route("/personal-computer", methods=["GET"])
+def personal_computer_constraints():
+    return jsonify({"constraints": pc_constraints[1:]}), 200
+
+
 @api_blueprint.route("/personal-computer", methods=["POST"])
 def personal_computer():
     try:
