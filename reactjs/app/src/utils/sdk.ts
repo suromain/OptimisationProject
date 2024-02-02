@@ -1,8 +1,8 @@
 import axios from "axios";
-import { SolverResponse } from "../types/SolverResponse";
-import { ZebraSolution } from "../types/ZebraSolution";
-import { PersonalComputerSolution } from "../types/PersonalComputerSolution";
-import { CustomProblem, CustomProblemSolution } from "../types/CustomProblem";
+import {ConstraintsResponse, SolverResponse} from "../types/SolverResponse";
+import {ZebraSolution} from "../types/ZebraSolution";
+import {PersonalComputerSolution} from "../types/PersonalComputerSolution";
+import {CustomProblem, CustomProblemSolution} from "../types/CustomProblem.ts";
 
 const client = axios.create({
   baseURL: "http://localhost:8080",
@@ -11,14 +11,15 @@ const client = axios.create({
 const sdk = {
   zebra: {
     checkSolution: async (solution: ZebraSolution): Promise<SolverResponse> => {
-      const { data } = await client.post<SolverResponse>(
-        "/api/zebra",
-        solution
-      );
+      const { data } = await client.post("/api/zebra", solution);
       return data;
     },
   },
   personalComputer: {
+    getConstraints: async (): Promise<ConstraintsResponse> => {
+      const { data } = await client.get("/api/personal-computer");
+      return data;
+    },
     checkSolution: async (
       solution: PersonalComputerSolution
     ): Promise<SolverResponse> => {
