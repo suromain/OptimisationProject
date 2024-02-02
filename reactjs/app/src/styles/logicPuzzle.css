@@ -1,0 +1,73 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.body-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 3em;
+
+    .hints {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        /*justify-content: center;*/
+        padding-left: 5em;
+        width: 20%;
+
+        .overlined {
+            text-decoration: line-through;
+        }
+    }
+}
+
+.answer-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    table {
+        border: 2px solid black;
+        border-collapse: collapse;
+
+        tr {
+            height: 20%;
+            border: 2px solid black;
+            border-collapse: collapse;
+
+            th {
+                color: white;
+                background-color: black;
+            }
+
+            td {
+                cursor: pointer;
+                border: 2px solid black;
+                border-collapse: collapse;
+                width: 10em;
+            }
+        }
+    }
+
+    .button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding-left: 5em;
+
+        button {
+            color: white;
+        }
+
+        button:disabled {
+            color: gray;
+        }
+    }
+}
