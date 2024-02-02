@@ -3,14 +3,14 @@ from enum import Enum
 from typing import Optional, Callable
 
 class OperandType(Enum):
-    PERSON = "PERSON"
+    NAME = "NAME"
     PLACE = "PLACE"
     OBJECT = "OBJECT"
 
     
     def to_minizinc_constraint(self) -> str:
         match self:
-            case OperandType.PERSON:
+            case OperandType.NAME:
                 return "personnes"
             case OperandType.PLACE:
                 return "lieux"
