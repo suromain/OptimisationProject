@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     align-content: end;
+    width: 40em;
 
     table {
         text-align: center;
