@@ -7,9 +7,9 @@ def create_and_solve(content : CustomContent, answer : CustomAnswer) -> bool:
     
     instance : Instance = create_instance(content)
     
-    instance["personnes"] = answer.personnes
-    instance["lieux"] = answer.lieux
-    instance["objets"] = answer.objets
+    instance["personnes"] = answer.names
+    instance["lieux"] = answer.places
+    instance["objets"] = answer.objects
 
     result : Result = instance.solve()
 

@@ -126,25 +126,25 @@ class ConstraintSchema(Schema):
 
 
 class CustomAnswer():
-    def __init__(self, personnes : list[str], lieux : list[str], objets : list[str]):
-        self.personnes = personnes
-        self.lieux = lieux
-        self.objets = objets
+    def __init__(self, names : list[str], places : list[str], objects : list[str]):
+        self.names = names
+        self.places = places
+        self.objects = objects
 
 class CustomAnswerSchema(Schema):
-    personnes = fields.List(
+    names = fields.List(
         fields.Str(),
         validate=validate.Length(equal=3),
         required=True
     )
 
-    lieux = fields.List(
+    places = fields.List(
         fields.Str(),
         validate=validate.Length(equal=3),
         required=True
     )
 
-    objets = fields.List(
+    objects = fields.List(
         fields.Str(),
         validate=validate.Length(equal=3),
         required=True
