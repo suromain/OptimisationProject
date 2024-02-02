@@ -26,11 +26,10 @@ constraints = [
 % Indice 1
 %Andrew a acheté l'ordinateur qui coûtait trois cents euros de moins que le PC qui a un processeur de 0,4 MHz plus puissant que celui qui a un écran de 21,5 pouces.
     forall(c in COMPUTERS)(
-    if monitor[c] = 215 then
+    monitor[c] = 215 ->
         exists(d in COMPUTERS)(
             price[1] = price[d] - 300 /\ processor[d] = processor[c] + 4
         )
-    endif
     ),
 % Indice 2
 %Les cinq ordinateurs sont : celui choisi par Andrew (qui n'a pas l'écran 27'), celui qui a le processeur 2.0 MHz, l'ordinateur qui a un disque dur de 250 GB, celui qui a un prix de 1 149 euros et l'ordinateur (qui n'a pas l'écran 15') qui a un disque dur plus grand que celui choisi par Andrew mais plus petit que celui qui a le processeur 2.7 MHz.
@@ -49,18 +48,15 @@ constraints = [
     hardDisk[c] = 320 -> (processor[c] = 20 \/ processor[c] = 23)
     ),
     forall(c in COMPUTERS)(
-    if monitor[c] = 150 then
+    monitor[c] = 150 ->
         forall(d in COMPUTERS)(
-            if price[d] = 999 then
+            price[d] = 999 ->
                 processor[c] > processor[d]
-            endif
         ) /\
         forall(d in COMPUTERS)(
-            if price[d] = 1349 then
+            price[d] = 1349 ->
                 processor[c] < processor[d]
-            endif
         )
-    endif
     ),
 % Indice 4
 %L'ordinateur qui a un écran de 27 pouces n'a pas de disque dur de 320 Gb. Le disque dur de 500 Go est inclus dans l'ordinateur qui a un processeur plus puissant et un écran plus grand que celui qui coûte que celui qui coûte 699 euros (qui n'inclut pas le disque dur de 320 Go).
@@ -68,13 +64,11 @@ constraints = [
     monitor[c] = 270 -> hardDisk[c] != 320
     ),
     forall(c in COMPUTERS)(
-    if hardDisk[c] = 500 then
+    hardDisk[c] = 500 ->
         forall(d in COMPUTERS)(
-            if price[d] = 699 then
+            price[d] = 699 ->
                 processor[c] > processor[d] /\ monitor[c] > monitor[d]
-            endif
         )
-    endif
     ),
 
 ];
