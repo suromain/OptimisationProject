@@ -19,7 +19,7 @@ body:json {
         "negative": false,
         "atom": {
           "comparator": "EQ",
-          "operand_type": "PERSONNE",
+          "operand_type": "PERSON",
           "operand": "Jane"
         },
         "next": {
@@ -27,7 +27,7 @@ body:json {
           "constraint": {
             "negative": false,
             "atom": {
-              "operand_type": "LIEU",
+              "operand_type": "PLACE",
               "comparator": "NEQ",
               "operand": "Gare"
             },
@@ -40,7 +40,7 @@ body:json {
         "atom": {
           "comparator": "NEQ",
           "operand": "Aeroport",
-          "operand_type": "LIEU"
+          "operand_type": "PLACE"
         },
         "next": {
           "connector": "IMPLIES",
@@ -49,7 +49,7 @@ body:json {
             "atom": {
               "comparator": "EQ",
               "operand": "Tournevis",
-              "operand_type": "OBJET"
+              "operand_type": "OBJECT"
             },
             "next": null
           }

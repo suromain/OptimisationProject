@@ -3,16 +3,16 @@ from enum import Enum
 from typing import Optional, Callable
 
 class OperandType(Enum):
-    PERSONNE = "PERSONNE"
-    LIEU = "LIEU"
-    OBJET = "OBJET"
+    PERSON = "PERSON"
+    PLACE = "PLACE"
+    OBJECT = "OBJECT"
 
     
     def to_minizinc_constraint(self) -> str:
         match self:
-            case OperandType.PERSONNE:
+            case OperandType.PERSON:
                 return "personnes"
-            case OperandType.LIEU:
+            case OperandType.PLACE:
                 return "lieux"
             case default: 
                 return "objets"
