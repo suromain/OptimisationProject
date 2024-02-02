@@ -6,13 +6,19 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Comparator, Constraint, Properties } from "../../types/CustomProblem";
-import CustomProblemProperties from "./CustomProblemProperties";
+import {
+  Comparator,
+  Constraint,
+  CustomProblemSolution,
+  OperandType,
+  Operands,
+} from "../../types/CustomProblem";
 import CustomProblemConstraint from "./CustomProblemConstraint";
 import sdk from "../../utils/sdk";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useParams } from "react-router-dom";
+import CustomProblemOperands from "./CustomProblemOperands";
 
 const CustomProblem: FC = () => {
   const history = useNavigate();
@@ -20,18 +26,18 @@ const CustomProblem: FC = () => {
 
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [properties, setProperties] = useState<Properties>({
+  const [operands, setOperands] = useState<Operands>({
+    names: ["Sarah", "Jean", "Pierre"],
+    places: ["Angers", "Paris", "Bangkok"],
+    objects: ["Crayon", "Ordinateur", "Briquet"],
+  });
+  const [solution, setSolution] = useState<Operands>({
     names: ["Sarah", "Jean", "Pierre"],
     places: ["Angers", "Paris", "Bangkok"],
     objects: ["Crayon", "Ordinateur", "Briquet"],
   });
   const [constraints, setConstraints] = useState<Constraint[]>([]);
   const [solved, setSolved] = useState<boolean>(false);
-
-  const allProperties = useMemo(
-    () => [...properties.names, ...properties.objects, ...properties.places],
-    [properties]
-  );
 
   const editMode = useMemo(() => id === "new", [id]);
 
@@ -46,15 +52,19 @@ const CustomProblem: FC = () => {
     []
   );
 
-  const handlePropertiesChange = useCallback(
-    async (newProperties: Properties) => {
-      setProperties(newProperties);
+  const handleOperandsChange = useCallback(async (newOperands: Operands) => {
+    setOperands(newOperands);
+  }, []);
+
+  const handleSolutionChange = useCallback(
+    async (newSolution: CustomProblemSolution) => {
+      setSolution(newSolution);
       if (!editMode) {
-        const solved = await sdk.custom.solve("1", properties);
+        const solved = await sdk.custom.checkSolution("1", newSolution);
         setSolved(solved);
       }
     },
-    [editMode, properties]
+    [editMode]
   );
 
   const handleConstraintChange = useCallback(
@@ -73,11 +83,15 @@ const CustomProblem: FC = () => {
       ...oldConstraints,
       {
         negative: false,
-        atom: { comparator: Comparator.EQ, operand: allProperties[0] ?? "" },
+        atom: {
+          comparator: Comparator.EQ,
+          operand: operands.names[0] ?? "",
+          operand_type: OperandType.NAME,
+        },
         next: null,
       },
     ]);
-  }, [allProperties]);
+  }, [operands.names]);
 
   const handleDeleteConstraint = useCallback(
     (idx: number) => () => {
@@ -98,20 +112,21 @@ const CustomProblem: FC = () => {
         name: name,
         description: description,
         constraints: constraints,
-        operands: properties,
+        operands: operands,
       });
       history(`/custom/${id}`);
     } catch (e) {
       alert("Erreur lors de l'enregistrement du problème");
     }
-  }, [constraints, description, history, name, properties]);
+  }, [constraints, description, history, name, operands]);
 
   const fetchProblem = useCallback(async () => {
     if (id !== undefined && id !== "new") {
       const problem = await sdk.custom.get(id);
       setConstraints(problem.constraints);
       setDescription(problem.description);
-      setProperties(problem.operands);
+      setOperands(problem.operands);
+      setSolution(problem.operands);
       setName(problem.name);
     }
   }, [id]);
@@ -166,9 +181,11 @@ const CustomProblem: FC = () => {
           disabled={!editMode}
         />
       </div>
-      <CustomProblemProperties
-        properties={properties}
-        onPropertiesChange={handlePropertiesChange}
+      <CustomProblemOperands
+        operands={editMode ? operands : solution}
+        onOperandsChange={
+          editMode ? handleOperandsChange : handleSolutionChange
+        }
         editMode={editMode}
       />
       {constraints.map((constraint, idx) => (
@@ -183,7 +200,7 @@ const CustomProblem: FC = () => {
           <div style={{ display: "flex", flexDirection: "row", gap: "4px" }}>
             <CustomProblemConstraint
               constraint={constraint}
-              properties={allProperties}
+              operands={operands}
               onConstraintChange={handleConstraintChange(idx)}
               onDelete={handleDeleteConstraint(idx)}
               editMode={editMode}

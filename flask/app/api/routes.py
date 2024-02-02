@@ -129,7 +129,7 @@ def create_custom_puzzle():
     try:
         data: CustomCreate = custom_create_schema.load(json_data)
     except ValidationError as err:
-        return err.messages, 422
+        return jsonify(err.messages), 400
 
     content = {
         "constraints": json_data["constraints"],
@@ -205,7 +205,7 @@ def submit_answer_custom_puzzle(id: int):
     try:
         data: CustomAnswer = custom_answer_schema.load(json_data)
     except ValidationError as err:
-        return err.messages, 422
+        return err.messages, 400
 
     db = get_db()
 

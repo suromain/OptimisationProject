@@ -1,52 +1,52 @@
 import { FC, useCallback } from "react";
-import { Properties } from "../../types/CustomProblem";
+import { Operands } from "../../types/CustomProblem";
 import CustomProblemField from "./CustomProblemField";
 
 interface Props {
-  properties: Properties;
-  onPropertiesChange: (newProperties: Properties) => void;
+  operands: Operands;
+  onOperandsChange: (newOperands: Operands) => void;
   editMode: boolean;
 }
 
-const CustomProblemProperties: FC<Props> = ({
-  properties,
-  onPropertiesChange,
+const CustomProblemOperands: FC<Props> = ({
+  operands,
+  onOperandsChange,
   editMode,
 }) => {
   const handleNameChange = useCallback(
     (idx: number) => (newValue: string) => {
-      onPropertiesChange({
-        ...properties,
-        names: properties.names.map((name, nameIdx) =>
+      onOperandsChange({
+        ...operands,
+        names: operands.names.map((name, nameIdx) =>
           idx === nameIdx ? newValue : name
         ),
       });
     },
-    [properties, onPropertiesChange]
+    [operands, onOperandsChange]
   );
 
   const handlePlaceChange = useCallback(
     (idx: number) => (newValue: string) => {
-      onPropertiesChange({
-        ...properties,
-        places: properties.places.map((place, placeIdx) =>
+      onOperandsChange({
+        ...operands,
+        places: operands.places.map((place, placeIdx) =>
           idx === placeIdx ? newValue : place
         ),
       });
     },
-    [properties, onPropertiesChange]
+    [operands, onOperandsChange]
   );
 
   const handleObjectChange = useCallback(
     (idx: number) => (newValue: string) => {
-      onPropertiesChange({
-        ...properties,
-        objects: properties.objects.map((object, objectIdx) =>
+      onOperandsChange({
+        ...operands,
+        objects: operands.objects.map((object, objectIdx) =>
           idx === objectIdx ? newValue : object
         ),
       });
     },
-    [properties, onPropertiesChange]
+    [operands, onOperandsChange]
   );
 
   return (
@@ -59,13 +59,13 @@ const CustomProblemProperties: FC<Props> = ({
         }}
       >
         <p style={{ width: "80px" }}>Noms : </p>
-        {properties.names.map((name, idx) => (
+        {operands.names.map((name, idx) => (
           <CustomProblemField
             key={`name${idx}`}
             value={name}
             onChange={handleNameChange(idx)}
             mode={editMode ? "input" : "select"}
-            options={properties.names}
+            options={operands.names}
           />
         ))}
       </div>
@@ -77,13 +77,13 @@ const CustomProblemProperties: FC<Props> = ({
         }}
       >
         <p style={{ width: "80px" }}>Lieux : </p>
-        {properties.places.map((place, idx) => (
+        {operands.places.map((place, idx) => (
           <CustomProblemField
             key={`place${idx}`}
             value={place}
             onChange={handlePlaceChange(idx)}
             mode={editMode ? "input" : "select"}
-            options={properties.places}
+            options={operands.places}
           />
         ))}
       </div>
@@ -95,13 +95,13 @@ const CustomProblemProperties: FC<Props> = ({
         }}
       >
         <p style={{ width: "80px" }}>Objets : </p>
-        {properties.objects.map((object, idx) => (
+        {operands.objects.map((object, idx) => (
           <CustomProblemField
             key={`object${idx}`}
             value={object}
             onChange={handleObjectChange(idx)}
             mode={editMode ? "input" : "select"}
-            options={properties.objects}
+            options={operands.objects}
           />
         ))}
       </div>
@@ -109,4 +109,4 @@ const CustomProblemProperties: FC<Props> = ({
   );
 };
 
-export default CustomProblemProperties;
+export default CustomProblemOperands;

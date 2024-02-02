@@ -1,7 +1,13 @@
-export interface Properties {
+export interface Operands {
   names: string[];
   places: string[];
   objects: string[];
+}
+
+export enum OperandType {
+  NAME = "PERSONNE",
+  PLACE = "LIEU",
+  OBJECT = "OBJET",
 }
 
 export enum Comparator {
@@ -18,6 +24,7 @@ export enum Connector {
 interface Atom {
   comparator: Comparator;
   operand: string;
+  operand_type: OperandType;
 }
 
 interface Next {
@@ -35,7 +42,20 @@ export interface CustomProblem {
   name: string;
   description: string;
   constraints: Constraint[];
-  operands: Properties;
+  operands: Operands;
 }
 
-export type CustomProblemSolution = Properties;
+export function getOperandType(
+  operands: Operands,
+  operand: string
+): OperandType {
+  if (operands.names.some((name) => name === operand)) {
+    return OperandType.NAME;
+  }
+  if (operands.objects.some((object) => object === operand)) {
+    return OperandType.OBJECT;
+  }
+  return OperandType.PLACE;
+}
+
+export type CustomProblemSolution = Operands;

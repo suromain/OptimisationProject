@@ -1,36 +1,30 @@
 // import { Logo } from "./logo"
 // import "../styles/header.scss"
 
+import { Link } from "react-router-dom";
+
 export function Header() {
   return (
     <>
-      {/*<Logo/>*/}
       <div>
         <ul>
           <li>
-            <a href={"/"} className="header-link">
-              <span> Home </span>
-            </a>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <a href={"/puzzle/zebra"} className="header-link">
-              <span> Zebra Puzzle </span>
-            </a>
+            <Link to="/puzzle/zebra">Zebra Puzzle</Link>
           </li>
           <li>
-            <a href={"/puzzle/personal-computer"} className="header-link">
-              <span> Personal Computer Puzzle </span>
-            </a>
+            <Link to="/puzzle/personal-computer">Personal Computer Puzzle</Link>
           </li>
           <li>
-            <a href={"/puzzle/movie-buffs"} className="header-link">
-              <span> Movie Buffs Puzzle </span>
-            </a>
+            <Link to="/puzzle/movie-buffs">Movie Buffs Puzzle</Link>
           </li>
           <li>
-            <a href={"/custom/new"} className="header-link">
-              <span> Create puzzle </span>
-            </a>
+            <Link to="/custom/new">Create puzzle</Link>
+          </li>
+          <li>
+            <Link to="/custom">Custom puzzles</Link>
           </li>
         </ul>
       </div>
