@@ -11,7 +11,6 @@ from app.validation.personal_computer import PersonalComputerSchema
 from app.validation.zebra import ZebraSchema
 
 
-<<<<<<< HEAD
 from app.validation.bonus import (
     CustomCreateSchema,
     CustomCreate,
@@ -22,9 +21,6 @@ from app.validation.bonus import (
     CustomAnswerSchema,
     CustomContentSchema,
 )
-=======
-from app.validation.bonus import CustomCreateSchema, CustomCreate, CustomGetShortSchema, CustomGetDetailedSchema, CustomContent, ConstraintSchema, Constraint, CustomAnswer, CustomAnswerSchema, CustomContentSchema
->>>>>>> 6d68706 (feat : début variabilisation)
 from app.model.bonus.solver import create_and_solve
 
 from marshmallow import ValidationError
