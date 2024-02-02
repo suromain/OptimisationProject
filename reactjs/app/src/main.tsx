@@ -4,11 +4,11 @@ import App from "./App.tsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Error from "./components/error.tsx";
-import PersonalComputer from "./components/personal-computer.tsx";
+import Home from "./components/home.tsx";
+import PersonalComputer from "./components/PersonalComputer.tsx";
 import Zebra from "./components/zebra/Zebra.tsx";
 import CustomProblem from "./components/custom/CustomProblem.tsx";
 import CustomProblems from "./components/custom/CustomProblems.tsx";
-import Home from "./components/home.tsx";
 
 const router = createBrowserRouter([
   {
