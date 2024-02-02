@@ -19,4 +19,4 @@ def solve(
 
     result = instance.solve()
 
-    return result.solution.constraints
+    return result.solution.hints
