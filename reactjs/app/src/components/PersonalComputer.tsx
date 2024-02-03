@@ -1,14 +1,12 @@
 import "../styles/grid.css"
 import "../styles/logicPuzzle.css"
-import tick from "../assets/tick.svg"
-import cross from "../assets/cross.svg"
+import sdk from "../utils/sdk.ts";
 import {ReactElement, useEffect, useState} from "react";
 import {GridCellMatrix} from "../classes/GridCellMatrix.ts";
-import {CellState} from "../types/CellState.ts";
 import {HardDisks, Monitors, PersonalComputerSolution, Prices, Processors} from "../types/PersonalComputerSolution.ts";
-import sdk from "../utils/sdk.ts";
 import {useLoaderData} from "react-router-dom";
 import {ConstraintsResponse} from "../types/SolverResponse.ts";
+import {generateLeftSide, generateTopSide, generateClickableMatrix, generateVoidMatrix} from "../utils/LogicPuzzleCreator.tsx";
 
 
 function PersonalComputer() {
@@ -75,81 +73,6 @@ function PersonalComputer() {
     }
   }, [answer, checkAnswer]);
 
-  function rowCellOvered(matrixRow: number, labelRow: number): boolean {
-    if (matrixRow === 0)
-      return (overedCell[0] === 0 || overedCell[0] === 3 || overedCell[0] === 5) && overedCell[1] === labelRow;
-    else if (matrixRow === 1)
-      return (overedCell[0] === 1 || overedCell[0] === 4) && overedCell[1] === labelRow;
-    else if (matrixRow === 2)
-      return overedCell[0] === 2 && overedCell[1] === labelRow;
-    else
-      return false;
-  }
-
-  function columnCellOvered(matrixColumn: number, labelColumn: number): boolean {
-    if (matrixColumn === 3)
-      return (overedCell[0] === 0 || overedCell[0] === 1 || overedCell[0] === 2) && overedCell[2] === labelColumn;
-    else if (matrixColumn === 4)
-      return (overedCell[0] === 3 || overedCell[0] === 4 && overedCell[2]) === labelColumn;
-    else if (matrixColumn === 5)
-      return overedCell[0] === 5 && overedCell[2] === labelColumn;
-    else
-      return false;
-  }
-
-  function generateLeftSide(header: string, labels: string[], row: number): ReactElement {
-    return (
-      <tbody className="left-side" onPointerEnter={() => setOveredCell([-1, -1, -1])}>
-        <tr>
-          <th rowSpan={5}><span>{header}</span></th>
-          {rowCellOvered(row, 0) ? <td className="overed">{labels[0]}</td> : <td>{labels[0]}</td>}
-        </tr>
-        <tr>
-          {rowCellOvered(row, 1) ? <td className="overed">{labels[1]}</td> : <td>{labels[1]}</td>}
-        </tr>
-        <tr>
-          {rowCellOvered(row, 2) ? <td className="overed">{labels[2]}</td> : <td>{labels[2]}</td>}
-        </tr>
-        <tr>
-          {rowCellOvered(row, 3) ? <td className="overed">{labels[3]}</td> : <td>{labels[3]}</td>}
-        </tr>
-        <tr>
-          {rowCellOvered(row, 4) ? <td className="overed">{labels[4]}</td> : <td>{labels[4]}</td>}
-        </tr>
-      </tbody>
-    );
-  }
-
-  function generateTopSide(header: string, labels: string[], column: number): ReactElement {
-    return (
-      <tbody className="top-side" onPointerEnter={() => setOveredCell([-1, -1, -1])}>
-        <tr>
-          <th colSpan={5}>{header}</th>
-        </tr>
-        <tr>
-          {columnCellOvered(column, 0) ? <td className="overed"><span>{labels[0]}</span></td> : <td><span>{labels[0]}</span></td>}
-          {columnCellOvered(column, 1) ? <td className="overed"><span>{labels[1]}</span></td> : <td><span>{labels[1]}</span></td>}
-          {columnCellOvered(column, 2) ? <td className="overed"><span>{labels[2]}</span></td> : <td><span>{labels[2]}</span></td>}
-          {columnCellOvered(column, 3) ? <td className="overed"><span>{labels[3]}</span></td> : <td><span>{labels[3]}</span></td>}
-          {columnCellOvered(column, 4) ? <td className="overed"><span>{labels[4]}</span></td> : <td><span>{labels[4]}</span></td>}
-        </tr>
-      </tbody>
-    );
-  }
-
-  function getCellContent(matrix: number, row: number, column: number): ReactElement {
-    const cellState = puzzleGrid[matrix].getCellState(row, column);
-
-    if (cellState === CellState.EMPTY)
-      return <></>;
-    else if (cellState === CellState.CROSSED || cellState === CellState.DISABLED || cellState === CellState.CROSSED_AND_DISABLED)
-      return <div><img src={cross} alt="Red cross"/></div>
-    else if (cellState === CellState.TICKED)
-      return <div><img src={tick} alt="Green tick"/></div>
-    else
-      throw new Error("Invalid cell state");
-  }
-
   function updateAnswer(matrix: number, row: number, column: number, ticked: boolean) {
     if (ticked) {
       if (matrix == 0)
@@ -171,91 +94,33 @@ function PersonalComputer() {
     setAnswer({...answer});
   }
 
-  function generateClickableMatrix(matrix: number): ReactElement {
-    return (
-      <tbody className="clickable">
-        {(() => {
-          const rows: Array<ReactElement> = [];
-
-          for (let i = 0; i < height; i++) {
-            const columns: Array<ReactElement> = [];
-
-            for (let j = 0; j < width; j++)
-              columns.push(<td  key={j}
-                onPointerEnter={() => setOveredCell([matrix, i, j])}
-                onClick={() => {
-                  const wasTicked = puzzleGrid[matrix].getCellState(i, j) === CellState.TICKED;
-
-                  puzzleGrid[matrix].changeCellState(i, j);
-                  setPuzzleGrid([...puzzleGrid]);
-
-                  if (matrix === 0 || matrix === 3 || matrix === 5) {
-                    if (puzzleGrid[matrix].getCellState(i, j) === CellState.TICKED)
-                      updateAnswer(matrix, i, j, true);
-                    else if (wasTicked)
-                      updateAnswer(matrix, i, j, false)
-                  }
-                }}>
-                {getCellContent(matrix, i, j)}
-              </td>);
-
-            rows.push(<tr key={i}>{columns}</tr>);
-          }
-
-          return rows;
-        })()}
-      </tbody>
-    );
-  }
-
-  function generateVoidMatrix(): ReactElement {
-    return (
-      <tbody className="void" onPointerEnter={() => setOveredCell([-1, -1, -1])}>
-        {(() => {
-          const rows: Array<ReactElement> = [];
-
-          for (let i = 0; i < height; i++) {
-            const columns: Array<ReactElement> = [];
-
-            for (let j = 0; j < width; j++)
-              columns.push(<td key={j}></td>);
-
-            rows.push(<tr key={i}>{columns}</tr>);
-          }
-
-          return rows;
-        })()}
-      </tbody>
-    );
-  }
-
   return (
     <div className="main-container">
       <div className="body-container">
         <div className="main-grid" onPointerLeave={() => setOveredCell([-1, -1, -1])}>
           <table>
             <tbody className="void" onPointerEnter={() => setOveredCell([-1, -1, -1])}/>
-            {generateLeftSide("Monitor", monitorsLabels, 0)}
-            {generateLeftSide("Price", pricesLabels, 1)}
-            {generateLeftSide("Hard Disk", hardDisksLabels, 2)}
+            {generateLeftSide("Monitor", monitorsLabels, 0, overedCell, setOveredCell)}
+            {generateLeftSide("Price", pricesLabels, 1, overedCell, setOveredCell)}
+            {generateLeftSide("Hard Disk", hardDisksLabels, 2, overedCell, setOveredCell)}
           </table>
           <table>
-            {generateTopSide("Processor", processorsLabels, 3)}
-            {generateClickableMatrix(0)}
-            {generateClickableMatrix(1)}
-            {generateClickableMatrix(2)}
+            {generateTopSide("Processor", processorsLabels, 3, overedCell, setOveredCell)}
+            {generateClickableMatrix(0, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
+            {generateClickableMatrix(1, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
+            {generateClickableMatrix(2, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
           </table>
           <table>
-            {generateTopSide("Hard Disk", hardDisksLabels, 4)}
-            {generateClickableMatrix(3)}
-            {generateClickableMatrix(4)}
-            {generateVoidMatrix()}
+            {generateTopSide("Hard Disk", hardDisksLabels, 4, overedCell, setOveredCell)}
+            {generateClickableMatrix(3, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
+            {generateClickableMatrix(4, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
+            {generateVoidMatrix(height, width, setOveredCell)}
           </table>
           <table>
-            {generateTopSide("Price", pricesLabels, 5)}
-            {generateClickableMatrix(5)}
-            {generateVoidMatrix()}
-            {generateVoidMatrix()}
+            {generateTopSide("Price", pricesLabels, 5, overedCell, setOveredCell)}
+            {generateClickableMatrix(5, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
+            {generateVoidMatrix(height, width, setOveredCell)}
+            {generateVoidMatrix(height, width, setOveredCell)}
           </table>
         </div>
 
