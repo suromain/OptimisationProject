@@ -90,6 +90,7 @@ def personal_computer():
             user_solution["prices"],
             user_solution["monitors"],
             user_solution["hardDisks"],
+            user_solution["andrews_choice"]
         )
 
         response = []
@@ -249,8 +250,7 @@ def movie_buff():
             user_solution["members"],
             user_solution["movies"],
             user_solution["days"],
-            user_solution["hours"],
-        )
+            user_solution["hours"])
 
         response = []
         for i in range(success_statuses.__len__()):

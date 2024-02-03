@@ -1,3 +1,4 @@
+% Use this editor as a MiniZinc scratch book
 include "globals.mzn";
 
 % Ensembles
@@ -13,78 +14,50 @@ array[COMPUTERS] of PRICES: price;
 array[COMPUTERS] of MONITORS: monitor;
 array[COMPUTERS] of HARD_DISK: hardDisk;
 
-int: nbConstraint = 16;
-array[1..nbConstraint] of var bool: constraints;
+var COMPUTERS: andrews_choice;
+
 array[1..5] of var bool: hints;
 
-constraints = [
-    all_different(processor),
-    all_different(price),
-    all_different(monitor),
-    all_different(hardDisk),
+hints = [(all_different(processor) /\ all_different(price) /\ all_different(monitor) /\ all_different(hardDisk)),
 
 % Indice 1
 %Andrew a acheté l'ordinateur qui coûtait trois cents euros de moins que le PC qui a un processeur de 0,4 MHz plus puissant que celui qui a un écran de 21,5 pouces.
-    forall(c in COMPUTERS)(
-    monitor[c] = 215 ->
-        exists(d in COMPUTERS)(
-            price[1] = price[d] - 300 /\ processor[d] = processor[c] + 4
-        )
-    ),
+(exists(p04, e215 in COMPUTERS)(
+    monitor[e215] = 215 /\
+    processor[p04] == (processor[e215] + 4) /\ 
+    price[andrews_choice] == (price[p04] - 300) 
+    )),
 % Indice 2
 %Les cinq ordinateurs sont : celui choisi par Andrew (qui n'a pas l'écran 27'), celui qui a le processeur 2.0 MHz, l'ordinateur qui a un disque dur de 250 GB, celui qui a un prix de 1 149 euros et l'ordinateur (qui n'a pas l'écran 15') qui a un disque dur plus grand que celui choisi par Andrew mais plus petit que celui qui a le processeur 2.7 MHz.
-    monitor[1] != 270,
-    processor[2] = 20,
-    hardDisk[3] = 250,
-    price[4] = 1149,
-    monitor[5] != 150,
-    hardDisk[5] > hardDisk[1],
-    exists(c in COMPUTERS)(
-    processor[c] = 27 /\ hardDisk[c] > hardDisk[5]
-    ),
+(exists(o1, o2, o3, o4, o5 in COMPUTERS)(
+    all_different([o1, o2, o3, o4, o5]) /\
+    o1 == andrews_choice /\
+    monitor[o1] != 270 /\
+    processor[o2] = 20 /\
+    hardDisk[o3] = 250 /\
+    price[o4] = 1149 /\
+    monitor[o5] != 150 /\
+    hardDisk[o5] > hardDisk[o1] /\
+    exists(c27 in COMPUTERS)(
+    processor[c27] = 27 /\ hardDisk[o5] < hardDisk[c27] 
+    )
+ )),
 % Indice 3
 %L'ordinateur avec le disque dur de 320 Go a un processeur de 2.0 ou 2.3 MHz. Le processeur de l'ordinateur qui a l'écran 15' est plus puissant que celui de l'ordinateur qui coûte 999 euros mais moins puissant que le processeur qui est inclus dans l'ordinateur de 1 349 euros.    
-    forall(c in COMPUTERS)(
-    hardDisk[c] = 320 -> (processor[c] = 20 \/ processor[c] = 23)
-    ),
-    forall(c in COMPUTERS)(
-    monitor[c] = 150 ->
-        forall(d in COMPUTERS)(
-            price[d] = 999 ->
-                processor[c] > processor[d]
-        ) /\
-        forall(d in COMPUTERS)(
-            price[d] = 1349 ->
-                processor[c] < processor[d]
-        )
-    ),
+(exists(c in COMPUTERS)(
+    hardDisk[c] == 320 /\ (processor[c] == 20 \/ processor[c] == 23)
+    ) /\
+    exists(c in COMPUTERS)(
+    monitor[c] == 150 
+    /\ exists(c999 in COMPUTERS)(price[c999] = 999 /\ processor[c] > processor[c999])
+    /\ exists(c1349 in COMPUTERS)(price[c1349] = 1349 /\ processor[c] < processor[c1349])
+    )),
 % Indice 4
 %L'ordinateur qui a un écran de 27 pouces n'a pas de disque dur de 320 Gb. Le disque dur de 500 Go est inclus dans l'ordinateur qui a un processeur plus puissant et un écran plus grand que celui qui coûte que celui qui coûte 699 euros (qui n'inclut pas le disque dur de 320 Go).
-    forall(c in COMPUTERS)(
-    monitor[c] = 270 -> hardDisk[c] != 320
-    ),
-    forall(c in COMPUTERS)(
-    hardDisk[c] = 500 ->
-        forall(d in COMPUTERS)(
-            price[d] = 699 ->
-                processor[c] > processor[d] /\ monitor[c] > monitor[d]
-        )
-    ),
-
-];
-
-hints = [
-    constraints[1] /\ constraints[2] /\ constraints[3] /\ constraints[4],
-    % Indice 1
-    constraints[5],
-    % Indice 2
-    constraints[6] /\ constraints[7] /\ constraints[8] /\ constraints[9] /\ constraints[10] /\ constraints[11] /\ constraints[12],
-    % Indice 3
-    constraints[13] /\ constraints[14],
-    % Indice 4
-    constraints[15] /\ constraints[16],
-];
-
-% output ["["];
-% output [show(hints[i]) ++ ", " | i in 1..5-1];
-% output [show(hints[5]) ++ "]"];
+(exists(c in COMPUTERS)(monitor[c] = 270 /\ hardDisk[c] != 320) /\
+exists(c in COMPUTERS)(
+          hardDisk[c] = 500 /\ 
+          exists(c699 in COMPUTERS)(
+                  price[c699] = 699 /\ processor[c] > processor[c699] /\ monitor[c] > monitor[c699]
+          )
+))];

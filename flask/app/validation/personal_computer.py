@@ -28,3 +28,7 @@ class PersonalComputerSchema(Schema):
         validate=validate.Length(equal=5),
         required=True,
     )
+    
+    andrews_choice = fields.Int(
+        validate=validate.Range(1, 5)
+    )
