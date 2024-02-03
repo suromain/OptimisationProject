@@ -6,6 +6,7 @@ import {
   CustomProblem,
   CustomProblemSolution,
 } from "../types/CustomProblem.ts";
+import {MovieBuffsSolution} from "../types/MovieBuffsSolution.ts";
 
 const client = axios.create({
   baseURL: "http://localhost:8080",
@@ -28,6 +29,21 @@ const sdk = {
     ): Promise<SolverResponse> => {
       const { data } = await client.post<SolverResponse>(
         "/api/personal-computer",
+        solution
+      );
+      return data;
+    },
+  },
+  movieBuffs: {
+    getConstraints: async (): Promise<ConstraintsResponse> => {
+      const { data } = await client.get("/api/movie-buffs");
+      return data;
+    },
+    checkSolution: async (
+      solution: MovieBuffsSolution
+    ): Promise<SolverResponse> => {
+      const { data } = await client.post<SolverResponse>(
+        "/api/movie-buffs",
         solution
       );
       return data;
