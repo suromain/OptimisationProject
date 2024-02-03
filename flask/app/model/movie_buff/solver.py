@@ -12,7 +12,7 @@ def solve(
     print("Solving...")
 
     gecode = Solver.lookup("gecode")
-    problem = Model(os.getcwd() + "/flask/app/model/movie_buff/model.mzn")
+    problem = Model(os.getcwd() + "/app/model/movie_buff/model.mzn")
 
     instance = Instance(gecode, problem)
     instance["members"] = members
@@ -22,4 +22,4 @@ def solve(
 
     result = instance.solve()
 
-    return result.solution.constraints
+    return result.solution.hints
