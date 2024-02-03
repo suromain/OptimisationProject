@@ -9,16 +9,15 @@ def solve(
         days: list[str],
         hours: list[int],
 ) -> list[bool]:
-    print("Solving...")
 
     gecode = Solver.lookup("gecode")
     problem = Model(os.getcwd() + "/app/model/movie_buff/model.mzn")
 
     instance = Instance(gecode, problem)
-    instance["members"] = members
-    instance["movies"] = movies
-    instance["days"] = days
-    instance["hours"] = hours
+    instance["member"] = members
+    instance["movie"] = movies
+    instance["day"] = days
+    instance["hour"] = hours
 
     result = instance.solve()
 

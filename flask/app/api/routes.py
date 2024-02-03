@@ -244,6 +244,7 @@ def movie_buff():
         data = request.get_json()
         schema = MovieBuffSchema()
         user_solution = schema.load(data)
+
         success_statuses = solve_movie(
             user_solution["members"],
             user_solution["movies"],
