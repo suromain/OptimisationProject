@@ -136,93 +136,97 @@ const CustomProblem: FC = () => {
   }, [fetchProblem]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "50vw",
-        gap: "10px",
-      }}
-    >
+    <div style={{ display: "flex", justifyContent: "center" }}>
       <div
         style={{
           display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
+          flexDirection: "column",
+          width: "50vw",
+          gap: "10px",
         }}
       >
-        <label style={{ width: "150px" }} htmlFor="name">
-          Nom :
-        </label>
-        <input
-          style={{ flex: 1 / 2 }}
-          id="name"
-          type="text"
-          value={name}
-          onChange={handleNameChange}
-          disabled={!editMode}
-        />
-      </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
-        }}
-      >
-        <label style={{ width: "150px" }} htmlFor="description">
-          Description :
-        </label>
-        <textarea
-          style={{ flex: 1 / 2 }}
-          id="description"
-          value={description}
-          onChange={handleDescriptionChange}
-          disabled={!editMode}
-        />
-      </div>
-      <CustomProblemOperands
-        operands={editMode ? operands : solution}
-        onOperandsChange={
-          editMode ? handleOperandsChange : handleSolutionChange
-        }
-        editMode={editMode}
-      />
-      {constraints.map((constraint, idx) => (
         <div
-          key={idx}
           style={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "space-between",
+            justifyContent: "space-around",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "row", gap: "4px" }}>
-            <CustomProblemConstraint
-              constraint={constraint}
-              operands={operands}
-              onConstraintChange={handleConstraintChange(idx)}
-              onDelete={handleDeleteConstraint(idx)}
-              editMode={editMode}
-            />
-          </div>
-          {editMode && (
-            <button
-              style={{ marginLeft: "5px" }}
-              onClick={handleDeleteConstraint(idx)}
-            >
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-          )}
+          <label style={{ width: "150px" }} htmlFor="name">
+            Nom :
+          </label>
+          <input
+            style={{ flex: 1 / 2 }}
+            id="name"
+            type="text"
+            value={name}
+            onChange={handleNameChange}
+            disabled={!editMode}
+          />
         </div>
-      ))}
-      {editMode && (
-        <>
-          <button onClick={handleAddConstraint}>Ajouter une contrainte</button>
-          <button onClick={handleSubmit}>Enregistrer</button>
-        </>
-      )}
-      {!editMode && <p>{solved ? "resolu" : "non resolu"}</p>}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
+        >
+          <label style={{ width: "150px" }} htmlFor="description">
+            Description :
+          </label>
+          <textarea
+            style={{ flex: 1 / 2 }}
+            id="description"
+            value={description}
+            onChange={handleDescriptionChange}
+            disabled={!editMode}
+          />
+        </div>
+        <CustomProblemOperands
+          operands={editMode ? operands : solution}
+          onOperandsChange={
+            editMode ? handleOperandsChange : handleSolutionChange
+          }
+          editMode={editMode}
+        />
+        {constraints.map((constraint, idx) => (
+          <div
+            key={idx}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <div style={{ display: "flex", flexDirection: "row", gap: "4px" }}>
+              <CustomProblemConstraint
+                constraint={constraint}
+                operands={operands}
+                onConstraintChange={handleConstraintChange(idx)}
+                onDelete={handleDeleteConstraint(idx)}
+                editMode={editMode}
+              />
+            </div>
+            {editMode && (
+              <button
+                style={{ marginLeft: "5px" }}
+                onClick={handleDeleteConstraint(idx)}
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
+            )}
+          </div>
+        ))}
+        {editMode && (
+          <>
+            <button onClick={handleAddConstraint}>
+              Ajouter une contrainte
+            </button>
+            <button onClick={handleSubmit}>Enregistrer</button>
+          </>
+        )}
+        {!editMode && <p>{solved ? "resolu" : "non resolu"}</p>}
+      </div>
     </div>
   );
 };
