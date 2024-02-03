@@ -159,36 +159,42 @@ function PersonalComputer() {
       <div className="answer-container">
         <table>
           <tbody>
-          <tr>
-            <th>Monitor</th>
-            <th>Processor</th>
-            <th>Hard Disk</th>
-            <th>Price</th>
-          </tr>
-          <tr>
-            <td>{monitorsLabels[monitors.indexOf(answer.monitors[0])]}</td>
-            <td>{processorsLabels[processors.indexOf(answer.processors[0])]}</td>
-            <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[0])]}</td>
-            <td>{pricesLabels[prices.indexOf(answer.prices[0])]}</td>
-          </tr>
-          <tr>
-            <td>{monitorsLabels[monitors.indexOf(answer.monitors[1])]}</td>
-            <td>{processorsLabels[processors.indexOf(answer.processors[1])]}</td>
-            <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[1])]}</td>
-            <td>{pricesLabels[prices.indexOf(answer.prices[1])]}</td>
-          </tr>
-          <tr>
-            <td>{monitorsLabels[monitors.indexOf(answer.monitors[2])]}</td>
-            <td>{processorsLabels[processors.indexOf(answer.processors[2])]}</td>
-            <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[2])]}</td>
-            <td>{pricesLabels[prices.indexOf(answer.prices[2])]}</td>
-          </tr>
-          <tr>
-            <td>{monitorsLabels[monitors.indexOf(answer.monitors[3])]}</td>
-            <td>{processorsLabels[processors.indexOf(answer.processors[3])]}</td>
-            <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[3])]}</td>
-            <td>{pricesLabels[prices.indexOf(answer.prices[3])]}</td>
-          </tr>
+            <tr>
+              <th>Monitor</th>
+              <th>Processor</th>
+              <th>Hard Disk</th>
+              <th>Price</th>
+            </tr>
+            <tr>
+              <td>{monitorsLabels[monitors.indexOf(answer.monitors[0])]}</td>
+              <td>{processorsLabels[processors.indexOf(answer.processors[0])]}</td>
+              <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[0])]}</td>
+              <td>{pricesLabels[prices.indexOf(answer.prices[0])]}</td>
+            </tr>
+            <tr>
+              <td>{monitorsLabels[monitors.indexOf(answer.monitors[1])]}</td>
+              <td>{processorsLabels[processors.indexOf(answer.processors[1])]}</td>
+              <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[1])]}</td>
+              <td>{pricesLabels[prices.indexOf(answer.prices[1])]}</td>
+            </tr>
+            <tr>
+              <td>{monitorsLabels[monitors.indexOf(answer.monitors[2])]}</td>
+              <td>{processorsLabels[processors.indexOf(answer.processors[2])]}</td>
+              <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[2])]}</td>
+              <td>{pricesLabels[prices.indexOf(answer.prices[2])]}</td>
+            </tr>
+            <tr>
+              <td>{monitorsLabels[monitors.indexOf(answer.monitors[3])]}</td>
+              <td>{processorsLabels[processors.indexOf(answer.processors[3])]}</td>
+              <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[3])]}</td>
+              <td>{pricesLabels[prices.indexOf(answer.prices[3])]}</td>
+            </tr>
+            <tr>
+              <td>{monitorsLabels[monitors.indexOf(answer.monitors[4])]}</td>
+              <td>{processorsLabels[processors.indexOf(answer.processors[4])]}</td>
+              <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[4])]}</td>
+              <td>{pricesLabels[prices.indexOf(answer.prices[4])]}</td>
+            </tr>
           </tbody>
         </table>
 
