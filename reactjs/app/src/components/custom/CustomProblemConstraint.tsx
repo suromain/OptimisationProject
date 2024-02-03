@@ -158,7 +158,7 @@ const CustomProblemConstraint: FC<Props> = ({
         ))}
         {operands.places.map((operand, idx) => (
           <option key={idx} value={operand}>
-            {`nom[${operand}]`}
+            {`lieu[${operand}]`}
           </option>
         ))}
       </select>

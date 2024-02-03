@@ -45,7 +45,13 @@ export const Zebra: FC = () => {
   }, [response]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "30px" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "30px",
+      }}
+    >
       <ZebraForm solution={solution} onChange={handleSolutionChange} />
       <ZebraHints response={response} />
     </div>

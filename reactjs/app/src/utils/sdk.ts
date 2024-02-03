@@ -1,8 +1,11 @@
 import axios from "axios";
-import {ConstraintsResponse, SolverResponse} from "../types/SolverResponse";
-import {ZebraSolution} from "../types/ZebraSolution";
-import {PersonalComputerSolution} from "../types/PersonalComputerSolution";
-import {CustomProblem, CustomProblemSolution} from "../types/CustomProblem.ts";
+import { ConstraintsResponse, SolverResponse } from "../types/SolverResponse";
+import { ZebraSolution } from "../types/ZebraSolution";
+import { PersonalComputerSolution } from "../types/PersonalComputerSolution";
+import {
+  CustomProblem,
+  CustomProblemSolution,
+} from "../types/CustomProblem.ts";
 
 const client = axios.create({
   baseURL: "http://localhost:8080",
@@ -42,11 +45,11 @@ const sdk = {
       id: string,
       solution: CustomProblemSolution
     ): Promise<boolean> => {
-      const { data } = await client.post<boolean>(
+      const { data } = await client.post<{ correct: boolean }>(
         `/api/custom-puzzle/${id}`,
         solution
       );
-      return data;
+      return data.correct;
     },
     get: async (id: string): Promise<CustomProblem & { id: number }> => {
       const { data } = await client.get<CustomProblem & { id: number }>(

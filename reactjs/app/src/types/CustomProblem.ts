@@ -5,9 +5,9 @@ export interface Operands {
 }
 
 export enum OperandType {
-  NAME = "PERSONNE",
-  PLACE = "LIEU",
-  OBJECT = "OBJET",
+  NAME = "NAME",
+  PLACE = "PLACE",
+  OBJECT = "OBJECT",
 }
 
 export enum Comparator {

@@ -12,7 +12,7 @@ const ZebraHints: FC<Props> = ({ response }) => {
         <p
           key={item.constraint}
           style={{
-            textDecoration: item.success ? "line-through" : undefined,
+            textDecoration: item.success ? undefined : "line-through",
             flexGrow: 1,
             flexBasis: "40%",
             boxSizing: "border-box",

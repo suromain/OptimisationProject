@@ -52,16 +52,19 @@ const CustomProblem: FC = () => {
     []
   );
 
-  const handleOperandsChange = useCallback(async (newOperands: Operands) => {
-    setOperands(newOperands);
-  }, []);
+  const handleOperandsChange = useCallback(
+    async (newOperands: Operands) => {
+      if (editMode) {
+        setOperands(newOperands);
+      }
+    },
+    [editMode]
+  );
 
   const handleSolutionChange = useCallback(
     async (newSolution: CustomProblemSolution) => {
-      setSolution(newSolution);
       if (!editMode) {
-        const solved = await sdk.custom.checkSolution("1", newSolution);
-        setSolved(solved);
+        setSolution(newSolution);
       }
     },
     [editMode]
@@ -128,12 +131,36 @@ const CustomProblem: FC = () => {
       setOperands(problem.operands);
       setSolution(problem.operands);
       setName(problem.name);
+    } else {
+      setConstraints([]);
+      setDescription("");
+      setOperands({
+        names: ["Sarah", "Jean", "Pierre"],
+        places: ["Angers", "Paris", "Bangkok"],
+        objects: ["Crayon", "Ordinateur", "Briquet"],
+      });
+      setSolution({
+        names: ["Sarah", "Jean", "Pierre"],
+        places: ["Angers", "Paris", "Bangkok"],
+        objects: ["Crayon", "Ordinateur", "Briquet"],
+      });
+      setName("");
     }
   }, [id]);
 
+  const checkSolution = useCallback(async () => {
+    if (id !== undefined && !editMode) {
+      setSolved(await sdk.custom.checkSolution(id, solution));
+    }
+  }, [editMode, id, solution]);
+
   useEffect(() => {
-    fetchProblem();
+    void fetchProblem();
   }, [fetchProblem]);
+
+  useEffect(() => {
+    void checkSolution();
+  }, [checkSolution]);
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
@@ -183,10 +210,10 @@ const CustomProblem: FC = () => {
           />
         </div>
         <CustomProblemOperands
-          operands={editMode ? operands : solution}
-          onOperandsChange={
-            editMode ? handleOperandsChange : handleSolutionChange
-          }
+          operands={operands}
+          solution={solution}
+          onOperandsChange={handleOperandsChange}
+          onSolutionChange={handleSolutionChange}
           editMode={editMode}
         />
         {constraints.map((constraint, idx) => (

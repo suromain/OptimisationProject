@@ -1,52 +1,72 @@
-import { FC, useCallback } from "react";
-import { Operands } from "../../types/CustomProblem";
+import { FC, useCallback, useMemo } from "react";
+import { CustomProblemSolution, Operands } from "../../types/CustomProblem";
 import CustomProblemField from "./CustomProblemField";
 
 interface Props {
   operands: Operands;
   onOperandsChange: (newOperands: Operands) => void;
+  solution: CustomProblemSolution;
+  onSolutionChange: (newSolution: CustomProblemSolution) => void;
   editMode: boolean;
 }
 
 const CustomProblemOperands: FC<Props> = ({
   operands,
   onOperandsChange,
+  solution,
+  onSolutionChange,
   editMode,
 }) => {
+  const values = useMemo(
+    () => (editMode ? operands : solution),
+    [editMode, operands, solution]
+  );
+
+  const onChange = useCallback(
+    (newValues: Operands) => {
+      if (editMode) {
+        onOperandsChange(newValues);
+      } else {
+        onSolutionChange(newValues);
+      }
+    },
+    [editMode, onOperandsChange, onSolutionChange]
+  );
+
   const handleNameChange = useCallback(
     (idx: number) => (newValue: string) => {
-      onOperandsChange({
-        ...operands,
-        names: operands.names.map((name, nameIdx) =>
+      onChange({
+        ...values,
+        names: values.names.map((name, nameIdx) =>
           idx === nameIdx ? newValue : name
         ),
       });
     },
-    [operands, onOperandsChange]
+    [values, onChange]
   );
 
   const handlePlaceChange = useCallback(
     (idx: number) => (newValue: string) => {
-      onOperandsChange({
-        ...operands,
-        places: operands.places.map((place, placeIdx) =>
+      onChange({
+        ...values,
+        places: values.places.map((place, placeIdx) =>
           idx === placeIdx ? newValue : place
         ),
       });
     },
-    [operands, onOperandsChange]
+    [values, onChange]
   );
 
   const handleObjectChange = useCallback(
     (idx: number) => (newValue: string) => {
-      onOperandsChange({
-        ...operands,
-        objects: operands.objects.map((object, objectIdx) =>
+      onChange({
+        ...values,
+        objects: values.objects.map((object, objectIdx) =>
           idx === objectIdx ? newValue : object
         ),
       });
     },
-    [operands, onOperandsChange]
+    [values, onChange]
   );
 
   return (
@@ -59,7 +79,7 @@ const CustomProblemOperands: FC<Props> = ({
         }}
       >
         <p style={{ width: "80px" }}>Noms : </p>
-        {operands.names.map((name, idx) => (
+        {values.names.map((name, idx) => (
           <CustomProblemField
             key={`name${idx}`}
             value={name}
@@ -77,7 +97,7 @@ const CustomProblemOperands: FC<Props> = ({
         }}
       >
         <p style={{ width: "80px" }}>Lieux : </p>
-        {operands.places.map((place, idx) => (
+        {values.places.map((place, idx) => (
           <CustomProblemField
             key={`place${idx}`}
             value={place}
@@ -95,7 +115,7 @@ const CustomProblemOperands: FC<Props> = ({
         }}
       >
         <p style={{ width: "80px" }}>Objets : </p>
-        {operands.objects.map((object, idx) => (
+        {values.objects.map((object, idx) => (
           <CustomProblemField
             key={`object${idx}`}
             value={object}
