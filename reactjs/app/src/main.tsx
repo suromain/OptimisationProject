@@ -10,6 +10,7 @@ import Zebra from "./components/zebra/Zebra.tsx";
 import CustomProblem from "./components/custom/CustomProblem.tsx";
 import CustomProblems from "./components/custom/CustomProblems.tsx";
 import sdk from "./utils/sdk.ts";
+import MovieBuffs from "./components/MovieBuffs.tsx";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,15 @@ const router = createBrowserRouter([
         element: <PersonalComputer />,
         loader: async () => {
           const api = sdk.personalComputer;
+          const response = await api.getConstraints();
+          return {constraints: response.constraints};
+        }
+      },
+      {
+        path: "puzzle/movie-buffs",
+        element: <MovieBuffs />,
+        loader: async () => {
+          const api = sdk.movieBuffs;
           const response = await api.getConstraints();
           return {constraints: response.constraints};
         }
