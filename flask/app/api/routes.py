@@ -27,7 +27,7 @@ from marshmallow import ValidationError
 
 from app.db.db import get_db
 import json
-from app.model.movie_buff.constraints import movie_buff_constraints
+from app.model.movie_buff.constraints import mb_constraints
 from app.model.movie_buff.solver import solve as solve_movie
 from app.validation.movie_buff import MovieBuffSchema
 
@@ -233,7 +233,12 @@ def submit_answer_custom_puzzle(id: int):
     return ({"correct": result}, 200)
 
 
-@api_blueprint.route("/movie-buff", methods=["POST"])
+@api_blueprint.route("/movie-buffs", methods=["GET"])
+def movie_buff_constraints():
+    return jsonify({"constraints": mb_constraints[1:]}), 200
+
+
+@api_blueprint.route("/movie-buffs", methods=["POST"])
 def movie_buff():
     try:
         data = request.get_json()
@@ -251,7 +256,7 @@ def movie_buff():
             response.append(
                 {
                     "success": success_statuses[i],
-                    "constraint": movie_buff_constraints[i],
+                    "constraint": mb_constraints[i],
                 }
             )
 
