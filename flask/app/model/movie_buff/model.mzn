@@ -1,7 +1,7 @@
 include "globals.mzn";
 
 % Ensembles
-enum MEMBERS = {Sally, Mark, Jessica, Laurie, Mary};
+enum MEMBERS = {Jessica,  Laurie,  Sally , Mark, Mary};
 enum MOVIES = {Scarface, Scarecrow, DonnieBrasco, Minutes88, TheRecruit};
 enum DAYS = {Monday, Tuesday, Wednesday, Thursday, Friday};
 % nombre de minutes à partir de 7:00 pm
