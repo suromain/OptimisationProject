@@ -1,6 +1,6 @@
 mb_constraints = [
     "0. All different",
-    "1. 1. Of the 20-hundreds releases, neither of which was Jessica's choice, one opened the week and one closed the week.",
+    "1. Of the 20-hundreds releases, neither of which was Jessica's choice, one opened the week and one closed the week.",
     "2. The latest of the 19-hundreds releases was shown at 30 minutes past the hour.",
     "3. The releases shown before 8:00 pm were on consecutive days, as were the releases shown after 8:00 pm.",
     "4. One of the men and one of the women had a showing before 8:00 pm, but neither was mid-week.",
