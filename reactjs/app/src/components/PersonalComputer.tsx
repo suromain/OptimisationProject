@@ -2,7 +2,7 @@ import "../styles/grid.css"
 import "../styles/puzzle.css"
 import "../styles/logicPuzzle.css"
 import sdk from "../utils/sdk.ts";
-import {ReactElement, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {GridCellMatrix} from "../classes/GridCellMatrix.ts";
 import {HardDisks, Monitors, PersonalComputerSolution, Prices, Processors} from "../types/PersonalComputerSolution.ts";
 import {useLoaderData} from "react-router-dom";
@@ -135,7 +135,7 @@ function PersonalComputer() {
 
         <div className="hints">
           <div>
-            {constraints.map((constraint): ReactElement => {
+            {constraints.map((constraint) => {
               const index = constraints.indexOf(constraint);
               const overlined = constraintsOverlined[index];
 
@@ -145,14 +145,14 @@ function PersonalComputer() {
                   setConstraintsOverlined([...constraintsOverlined]);
                 }}>{constraint}</p>;
               else
-                return <></>
+                return null
             })}
           </div>
 
           <div className="line"></div>
 
           <div>
-            {constraints.map((constraint): ReactElement => {
+            {constraints.map((constraint) => {
               const index = constraints.indexOf(constraint);
               const overlined = constraintsOverlined[index];
 
@@ -162,7 +162,7 @@ function PersonalComputer() {
                   setConstraintsOverlined([...constraintsOverlined]);
                 }}>{constraint}</p>;
               else
-                return <></>
+                return null
             })}
           </div>
         </div>
