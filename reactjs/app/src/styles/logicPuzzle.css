@@ -2,36 +2,35 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-}
 
-.body-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 3em;
-
-    .hints {
+    .body-container {
         display: flex;
-        flex-direction: column;
-        text-align: left;
-        /*justify-content: center;*/
-        padding-left: 5em;
-        width: 20%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 3em;
 
-        p {
-            cursor: pointer;
-            text-justify: auto;
-        }
+        .hints {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            padding-left: 5em;
+            width: 30%;
 
-        .line {
-            margin-top: 1em;
-            margin-bottom: 1em;
-            border-top: 2px solid white;
-        }
+            p {
+                cursor: pointer;
+                text-align: justify;
+            }
 
-        .overlined {
-            text-decoration: line-through;
+            .line {
+                margin-top: 1em;
+                margin-bottom: 1em;
+                border-top: 2px solid white;
+            }
+
+            .overlined {
+                text-decoration: line-through;
+            }
         }
     }
 }
@@ -62,7 +61,7 @@
                 cursor: pointer;
                 border: 2px solid black;
                 border-collapse: collapse;
-                width: 10em;
+                width: 8em;
             }
         }
     }

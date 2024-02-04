@@ -1,4 +1,5 @@
 import "../styles/grid.css"
+import "../styles/puzzle.css"
 import "../styles/logicPuzzle.css"
 import sdk from "../utils/sdk.ts";
 import {ReactElement, useEffect, useState} from "react";
@@ -97,12 +98,22 @@ function PersonalComputer() {
 
   return (
     <div className="main-container">
+      <div className="header-container">
+        <div className="title">
+          <h1>A New Personal Computer</h1>
+        </div>
+        <p className="description">
+          Andrew has just bought one of these five different models of computers. Each computer has a different screen
+          size, processor power, hard drive capacity and price. With the help of the clues, could you figure out which
+          computer has been chosen by Andrew?
+        </p>
+      </div>
       <div className="body-container">
         <div className="main-grid" onPointerLeave={() => setOveredCell([-1, -1, -1])}>
           <table>
             <tbody className="void" onPointerEnter={() => setOveredCell([-1, -1, -1])}/>
             {generateLeftSide("Monitor", monitorsLabels, "white", "black", 0, overedCell, setOveredCell)}
-            {generateLeftSide("Price", pricesLabels,  "black", "white", 1, overedCell, setOveredCell)}
+            {generateLeftSide("Price", pricesLabels, "black", "white", 1, overedCell, setOveredCell)}
             {generateLeftSide("Hard Disk", hardDisksLabels, "black", "white", 2, overedCell, setOveredCell)}
           </table>
           <table>
@@ -141,7 +152,7 @@ function PersonalComputer() {
             })}
           </div>
 
-          <div className="line"> </div>
+          <div className="line"></div>
 
           <div>
             {constraints.map((constraint): ReactElement => {
@@ -163,42 +174,42 @@ function PersonalComputer() {
       <div className="answer-container">
         <table>
           <tbody>
-            <tr>
-              <th style={{background: "white", color: "black"}}>Monitor</th>
-              <th style={{background: "blue", color: "white"}}>Processor</th>
-              <th style={{background: "red", color: "white"}}>Hard Disk</th>
-              <th style={{background: "yellow", color: "black"}}>Price</th>
-            </tr>
-            <tr>
-              <td>{monitorsLabels[monitors.indexOf(answer.monitors[0])]}</td>
-              <td>{processorsLabels[processors.indexOf(answer.processors[0])]}</td>
-              <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[0])]}</td>
-              <td>{pricesLabels[prices.indexOf(answer.prices[0])]}</td>
-            </tr>
-            <tr>
-              <td>{monitorsLabels[monitors.indexOf(answer.monitors[1])]}</td>
-              <td>{processorsLabels[processors.indexOf(answer.processors[1])]}</td>
-              <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[1])]}</td>
-              <td>{pricesLabels[prices.indexOf(answer.prices[1])]}</td>
-            </tr>
-            <tr>
-              <td>{monitorsLabels[monitors.indexOf(answer.monitors[2])]}</td>
-              <td>{processorsLabels[processors.indexOf(answer.processors[2])]}</td>
-              <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[2])]}</td>
-              <td>{pricesLabels[prices.indexOf(answer.prices[2])]}</td>
-            </tr>
-            <tr>
-              <td>{monitorsLabels[monitors.indexOf(answer.monitors[3])]}</td>
-              <td>{processorsLabels[processors.indexOf(answer.processors[3])]}</td>
-              <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[3])]}</td>
-              <td>{pricesLabels[prices.indexOf(answer.prices[3])]}</td>
-            </tr>
-            <tr>
-              <td>{monitorsLabels[monitors.indexOf(answer.monitors[4])]}</td>
-              <td>{processorsLabels[processors.indexOf(answer.processors[4])]}</td>
-              <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[4])]}</td>
-              <td>{pricesLabels[prices.indexOf(answer.prices[4])]}</td>
-            </tr>
+          <tr>
+            <th style={{background: "white", color: "black"}}>Monitor</th>
+            <th style={{background: "blue", color: "white"}}>Processor</th>
+            <th style={{background: "red", color: "white"}}>Hard Disk</th>
+            <th style={{background: "yellow", color: "black"}}>Price</th>
+          </tr>
+          <tr>
+            <td>{monitorsLabels[monitors.indexOf(answer.monitors[0])]}</td>
+            <td>{processorsLabels[processors.indexOf(answer.processors[0])]}</td>
+            <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[0])]}</td>
+            <td>{pricesLabels[prices.indexOf(answer.prices[0])]}</td>
+          </tr>
+          <tr>
+            <td>{monitorsLabels[monitors.indexOf(answer.monitors[1])]}</td>
+            <td>{processorsLabels[processors.indexOf(answer.processors[1])]}</td>
+            <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[1])]}</td>
+            <td>{pricesLabels[prices.indexOf(answer.prices[1])]}</td>
+          </tr>
+          <tr>
+            <td>{monitorsLabels[monitors.indexOf(answer.monitors[2])]}</td>
+            <td>{processorsLabels[processors.indexOf(answer.processors[2])]}</td>
+            <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[2])]}</td>
+            <td>{pricesLabels[prices.indexOf(answer.prices[2])]}</td>
+          </tr>
+          <tr>
+            <td>{monitorsLabels[monitors.indexOf(answer.monitors[3])]}</td>
+            <td>{processorsLabels[processors.indexOf(answer.processors[3])]}</td>
+            <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[3])]}</td>
+            <td>{pricesLabels[prices.indexOf(answer.prices[3])]}</td>
+          </tr>
+          <tr>
+            <td>{monitorsLabels[monitors.indexOf(answer.monitors[4])]}</td>
+            <td>{processorsLabels[processors.indexOf(answer.processors[4])]}</td>
+            <td>{hardDisksLabels[hardDisks.indexOf(answer.hardDisks[4])]}</td>
+            <td>{pricesLabels[prices.indexOf(answer.prices[4])]}</td>
+          </tr>
           </tbody>
         </table>
 

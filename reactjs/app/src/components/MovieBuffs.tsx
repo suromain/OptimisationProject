@@ -1,4 +1,5 @@
 import "../styles/grid.css"
+import "../styles/puzzle.css"
 import "../styles/logicPuzzle.css"
 import sdk from "../utils/sdk.ts";
 import {ReactElement, useEffect, useState} from "react";
@@ -96,6 +97,23 @@ function MovieBuffs() {
 
   return (
     <div className="main-container">
+      <div className="header-container">
+        <div className="title">
+          <h1>Movie Buffs Associated - Al Pacino</h1>
+        </div>
+        <p className="description">
+          A five-member panel, determined by a ballot of members of the local Movie Buffs
+          Associated at the Annual General Meeting, select a series of movies, starring a particular actor/actress, to
+          be shown in the Municipal Offices function room each evening from Monday to Friday. The panel of Sally Boyden,
+          Mark Thomson, Jessica Farmer, Laurie Davison and Mary Peters were re-elected for 2015.
+          <br/>
+          Last week their choice actor/actress was Al Pacino, and the films chosen - one per member - were Scarface
+          (1983), Scarecrow (1973), Donnie Brasco (1997), 88 Minutes (2007), and The Recruit (2003). The films chosen
+          were not respective, and neither were they shown in that order, nor in the order in which they were released.
+          Showing time differed each evening. From this information and the following clues, for each member, can you
+          determine who chose which film, the day on which it was shown, and at what time?"
+        </p>
+      </div>
       <div className="body-container">
         <div className="main-grid" onPointerLeave={() => setOveredCell([-1, -1, -1])}>
           <table>
@@ -140,7 +158,7 @@ function MovieBuffs() {
             })}
           </div>
 
-          <div className="line"> </div>
+          <div className="line"></div>
 
           <div>
             {constraints.map((constraint): ReactElement => {
@@ -162,42 +180,42 @@ function MovieBuffs() {
       <div className="answer-container">
         <table>
           <tbody>
-            <tr>
-              <th style={{background: "white", color: "black"}}>Name</th>
-              <th style={{background: "blue", color: "white"}}>Film</th>
-              <th style={{background: "red", color: "white"}}>Day</th>
-              <th style={{background: "yellow", color: "black"}}>Time</th>
-            </tr>
-            <tr>
-              <td>{namesLabels[names.indexOf(answer.members[0])]}</td>
-              <td>{filmsLabels[films.indexOf(answer.movies[0])]}</td>
-              <td>{daysDisksLabels[days.indexOf(answer.days[0])]}</td>
-              <td>{timesLabels[times.indexOf(answer.hours[0])]}</td>
-            </tr>
-            <tr>
-              <td>{namesLabels[names.indexOf(answer.members[1])]}</td>
-              <td>{filmsLabels[films.indexOf(answer.movies[1])]}</td>
-              <td>{daysDisksLabels[days.indexOf(answer.days[1])]}</td>
-              <td>{timesLabels[times.indexOf(answer.hours[1])]}</td>
-            </tr>
-            <tr>
-              <td>{namesLabels[names.indexOf(answer.members[2])]}</td>
-              <td>{filmsLabels[films.indexOf(answer.movies[2])]}</td>
-              <td>{daysDisksLabels[days.indexOf(answer.days[2])]}</td>
-              <td>{timesLabels[times.indexOf(answer.hours[2])]}</td>
-            </tr>
-            <tr>
-              <td>{namesLabels[names.indexOf(answer.members[3])]}</td>
-              <td>{filmsLabels[films.indexOf(answer.movies[3])]}</td>
-              <td>{daysDisksLabels[days.indexOf(answer.days[3])]}</td>
-              <td>{timesLabels[times.indexOf(answer.hours[3])]}</td>
-            </tr>
-            <tr>
-              <td>{namesLabels[names.indexOf(answer.members[4])]}</td>
-              <td>{filmsLabels[films.indexOf(answer.movies[4])]}</td>
-              <td>{daysDisksLabels[days.indexOf(answer.days[4])]}</td>
-              <td>{timesLabels[times.indexOf(answer.hours[4])]}</td>
-            </tr>
+          <tr>
+            <th style={{background: "white", color: "black"}}>Name</th>
+            <th style={{background: "blue", color: "white"}}>Film</th>
+            <th style={{background: "red", color: "white"}}>Day</th>
+            <th style={{background: "yellow", color: "black"}}>Time</th>
+          </tr>
+          <tr>
+            <td>{namesLabels[names.indexOf(answer.members[0])]}</td>
+            <td>{filmsLabels[films.indexOf(answer.movies[0])]}</td>
+            <td>{daysDisksLabels[days.indexOf(answer.days[0])]}</td>
+            <td>{timesLabels[times.indexOf(answer.hours[0])]}</td>
+          </tr>
+          <tr>
+            <td>{namesLabels[names.indexOf(answer.members[1])]}</td>
+            <td>{filmsLabels[films.indexOf(answer.movies[1])]}</td>
+            <td>{daysDisksLabels[days.indexOf(answer.days[1])]}</td>
+            <td>{timesLabels[times.indexOf(answer.hours[1])]}</td>
+          </tr>
+          <tr>
+            <td>{namesLabels[names.indexOf(answer.members[2])]}</td>
+            <td>{filmsLabels[films.indexOf(answer.movies[2])]}</td>
+            <td>{daysDisksLabels[days.indexOf(answer.days[2])]}</td>
+            <td>{timesLabels[times.indexOf(answer.hours[2])]}</td>
+          </tr>
+          <tr>
+            <td>{namesLabels[names.indexOf(answer.members[3])]}</td>
+            <td>{filmsLabels[films.indexOf(answer.movies[3])]}</td>
+            <td>{daysDisksLabels[days.indexOf(answer.days[3])]}</td>
+            <td>{timesLabels[times.indexOf(answer.hours[3])]}</td>
+          </tr>
+          <tr>
+            <td>{namesLabels[names.indexOf(answer.members[4])]}</td>
+            <td>{filmsLabels[films.indexOf(answer.movies[4])]}</td>
+            <td>{daysDisksLabels[days.indexOf(answer.days[4])]}</td>
+            <td>{timesLabels[times.indexOf(answer.hours[4])]}</td>
+          </tr>
           </tbody>
         </table>
 
