@@ -8,4 +8,5 @@ export interface PersonalComputerSolution {
   prices: Prices[];
   monitors: Monitors[];
   hardDisks: HardDisks[];
+  andrews_choice: 3;
 }
