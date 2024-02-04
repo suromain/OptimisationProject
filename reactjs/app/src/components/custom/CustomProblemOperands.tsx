@@ -8,6 +8,7 @@ interface Props {
   solution: CustomProblemSolution;
   onSolutionChange: (newSolution: CustomProblemSolution) => void;
   editMode: boolean;
+  disabled: boolean;
 }
 
 const CustomProblemOperands: FC<Props> = ({
@@ -16,6 +17,7 @@ const CustomProblemOperands: FC<Props> = ({
   solution,
   onSolutionChange,
   editMode,
+  disabled,
 }) => {
   const values = useMemo(
     () => (editMode ? operands : solution),
@@ -86,6 +88,7 @@ const CustomProblemOperands: FC<Props> = ({
             onChange={handleNameChange(idx)}
             mode={editMode ? "input" : "select"}
             options={operands.names}
+            disabled={disabled}
           />
         ))}
       </div>
@@ -104,6 +107,7 @@ const CustomProblemOperands: FC<Props> = ({
             onChange={handlePlaceChange(idx)}
             mode={editMode ? "input" : "select"}
             options={operands.places}
+            disabled={disabled}
           />
         ))}
       </div>
@@ -122,6 +126,7 @@ const CustomProblemOperands: FC<Props> = ({
             onChange={handleObjectChange(idx)}
             mode={editMode ? "input" : "select"}
             options={operands.objects}
+            disabled={disabled}
           />
         ))}
       </div>

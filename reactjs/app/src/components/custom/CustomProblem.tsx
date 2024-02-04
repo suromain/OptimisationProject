@@ -32,9 +32,9 @@ const CustomProblem: FC = () => {
     objects: ["Crayon", "Ordinateur", "Briquet"],
   });
   const [solution, setSolution] = useState<Operands>({
-    names: ["Sarah", "Jean", "Pierre"],
-    places: ["Angers", "Paris", "Bangkok"],
-    objects: ["Crayon", "Ordinateur", "Briquet"],
+    names: [],
+    places: [],
+    objects: [],
   });
   const [constraints, setConstraints] = useState<Constraint[]>([]);
   const [solved, setSolved] = useState<boolean>(false);
@@ -140,16 +140,16 @@ const CustomProblem: FC = () => {
         objects: ["Crayon", "Ordinateur", "Briquet"],
       });
       setSolution({
-        names: ["Sarah", "Jean", "Pierre"],
-        places: ["Angers", "Paris", "Bangkok"],
-        objects: ["Crayon", "Ordinateur", "Briquet"],
+        names: [],
+        places: [],
+        objects: [],
       });
       setName("");
     }
   }, [id]);
 
   const checkSolution = useCallback(async () => {
-    if (id !== undefined && !editMode) {
+    if (id !== undefined && !editMode && solution.names.length > 0) {
       setSolved(await sdk.custom.checkSolution(id, solution));
     }
   }, [editMode, id, solution]);
@@ -215,35 +215,38 @@ const CustomProblem: FC = () => {
           onOperandsChange={handleOperandsChange}
           onSolutionChange={handleSolutionChange}
           editMode={editMode}
+          disabled={constraints.length > 0}
         />
-        {constraints.map((constraint, idx) => (
-          <div
-            key={idx}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <div style={{ display: "flex", flexDirection: "row", gap: "4px" }}>
-              <CustomProblemConstraint
-                constraint={constraint}
-                operands={operands}
-                onConstraintChange={handleConstraintChange(idx)}
-                onDelete={handleDeleteConstraint(idx)}
-                editMode={editMode}
-              />
-            </div>
-            {editMode && (
-              <button
-                style={{ marginLeft: "5px" }}
-                onClick={handleDeleteConstraint(idx)}
+        {editMode &&
+          constraints.map((constraint, idx) => (
+            <div
+              key={idx}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <div
+                style={{ display: "flex", flexDirection: "row", gap: "4px" }}
               >
-                <FontAwesomeIcon icon={faTrash} />
-              </button>
-            )}
-          </div>
-        ))}
+                <CustomProblemConstraint
+                  constraint={constraint}
+                  operands={operands}
+                  onConstraintChange={handleConstraintChange(idx)}
+                  onDelete={handleDeleteConstraint(idx)}
+                />
+              </div>
+              {editMode && (
+                <button
+                  style={{ marginLeft: "5px" }}
+                  onClick={handleDeleteConstraint(idx)}
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+              )}
+            </div>
+          ))}
         {editMode && (
           <>
             <button onClick={handleAddConstraint}>

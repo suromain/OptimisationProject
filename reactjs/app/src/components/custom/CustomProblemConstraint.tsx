@@ -15,7 +15,6 @@ interface Props {
   onConstraintChange: (newConstraint: Constraint) => void;
   operands: Operands;
   onDelete: () => void;
-  editMode: boolean;
 }
 
 const SELECT_WIDTH = "100px";
@@ -25,7 +24,6 @@ const CustomProblemConstraint: FC<Props> = ({
   onConstraintChange,
   operands,
   onDelete,
-  editMode,
 }) => {
   const handleSignChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
@@ -121,7 +119,6 @@ const CustomProblemConstraint: FC<Props> = ({
         value={constraint.negative ? "NOT" : " "}
         onChange={handleSignChange}
         style={{ width: SELECT_WIDTH }}
-        disabled={!editMode}
       >
         <option value="NOT">NOT</option>
         <option value=" "> </option>
@@ -131,7 +128,6 @@ const CustomProblemConstraint: FC<Props> = ({
         value={constraint.atom.comparator}
         onChange={handleAtomComparatorChange}
         style={{ width: SELECT_WIDTH }}
-        disabled={!editMode}
       >
         {Object.values(Comparator).map((comparator, idx) => (
           <option key={idx} value={comparator}>
@@ -144,7 +140,6 @@ const CustomProblemConstraint: FC<Props> = ({
         value={constraint.atom.operand}
         onChange={handleAtomOperandChange}
         style={{ width: SELECT_WIDTH }}
-        disabled={!editMode}
       >
         {operands.names.map((operand, idx) => (
           <option key={idx} value={operand}>
@@ -162,7 +157,7 @@ const CustomProblemConstraint: FC<Props> = ({
           </option>
         ))}
       </select>
-      {constraint.next === null && editMode && (
+      {constraint.next === null && (
         <button style={{ marginLeft: "5px" }} onClick={handleDelete}>
           <FontAwesomeIcon icon={faMinus} />
         </button>
@@ -175,7 +170,6 @@ const CustomProblemConstraint: FC<Props> = ({
             style={{
               width: SELECT_WIDTH,
             }}
-            disabled={!editMode}
           >
             {Object.values(Connector).map((connector, idx) => (
               <option value={connector} key={idx}>
@@ -188,11 +182,10 @@ const CustomProblemConstraint: FC<Props> = ({
             onConstraintChange={handleNextConstraintChange}
             operands={operands}
             onDelete={handleDeleteNext}
-            editMode={editMode}
           />
         </>
       )}
-      {constraint.next === null && editMode && (
+      {constraint.next === null && (
         <button style={{ marginLeft: "5px" }} onClick={handleAddNext}>
           <FontAwesomeIcon icon={faPlus} />
         </button>
