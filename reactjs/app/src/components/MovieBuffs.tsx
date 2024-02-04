@@ -116,30 +116,30 @@ function MovieBuffs() {
       </div>
       <div className="body-container">
         <div className="main-grid" onPointerLeave={() => setOveredCell([-1, -1, -1])}>
-          <table>
-            <tbody className="void" onPointerEnter={() => setOveredCell([-1, -1, -1])}/>
+          <div className="sub-grid">
+            <div className="void" onPointerEnter={() => setOveredCell([-1, -1, -1])}/>
             {generateLeftSide("Name", namesLabels, "white", "black", 0, overedCell, setOveredCell)}
             {generateLeftSide("Time", timesLabels, "black", "white", 1, overedCell, setOveredCell)}
             {generateLeftSide("Day", daysDisksLabels, "black", "white", 2, overedCell, setOveredCell)}
-          </table>
-          <table>
+          </div>
+          <div className="sub-grid">
             {generateTopSide("Film", filmsLabels, "blue", "white", 3, overedCell, setOveredCell)}
             {generateClickableMatrix(0, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
             {generateClickableMatrix(1, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
             {generateClickableMatrix(2, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
-          </table>
-          <table>
+          </div>
+          <div className="sub-grid">
             {generateTopSide("Day", daysDisksLabels, "red", "white", 4, overedCell, setOveredCell)}
             {generateClickableMatrix(3, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
             {generateClickableMatrix(4, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
             {generateVoidMatrix(height, width, setOveredCell)}
-          </table>
-          <table>
+          </div>
+          <div className="sub-grid">
             {generateTopSide("Time", timesLabels, "yellow", "black", 5, overedCell, setOveredCell)}
             {generateClickableMatrix(5, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
             {generateVoidMatrix(height, width, setOveredCell)}
             {generateVoidMatrix(height, width, setOveredCell)}
-          </table>
+          </div>
         </div>
 
         <div className="hints">
