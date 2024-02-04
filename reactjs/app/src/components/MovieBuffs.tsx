@@ -6,7 +6,7 @@ import {ReactElement, useEffect, useState} from "react";
 import {GridCellMatrix} from "../classes/GridCellMatrix.ts";
 import {useLoaderData} from "react-router-dom";
 import {ConstraintsResponse} from "../types/SolverResponse.ts";
-import {generateLeftSide, generateTopSide, generateClickableMatrix, generateVoidMatrix} from "../utils/LogicPuzzleCreator.tsx";
+import {generateLeftSide, generateTopSide, generateClickableMatrix} from "../utils/LogicPuzzleCreator.tsx";
 import {Days, Films, MovieBuffsSolution, Names, Times} from "../types/MovieBuffsSolution.ts";
 
 
@@ -132,13 +132,10 @@ function MovieBuffs() {
             {generateTopSide("Day", daysDisksLabels, "red", "white", 4, overedCell, setOveredCell)}
             {generateClickableMatrix(3, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
             {generateClickableMatrix(4, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
-            {generateVoidMatrix(height, width, setOveredCell)}
           </div>
           <div className="sub-grid">
             {generateTopSide("Time", timesLabels, "yellow", "black", 5, overedCell, setOveredCell)}
             {generateClickableMatrix(5, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
-            {generateVoidMatrix(height, width, setOveredCell)}
-            {generateVoidMatrix(height, width, setOveredCell)}
           </div>
         </div>
 

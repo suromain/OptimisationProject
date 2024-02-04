@@ -7,7 +7,7 @@ import {GridCellMatrix} from "../classes/GridCellMatrix.ts";
 import {HardDisks, Monitors, PersonalComputerSolution, Prices, Processors} from "../types/PersonalComputerSolution.ts";
 import {useLoaderData} from "react-router-dom";
 import {ConstraintsResponse} from "../types/SolverResponse.ts";
-import {generateLeftSide, generateTopSide, generateClickableMatrix, generateVoidMatrix} from "../utils/LogicPuzzleCreator.tsx";
+import {generateLeftSide, generateTopSide, generateClickableMatrix} from "../utils/LogicPuzzleCreator.tsx";
 
 
 function PersonalComputer() {

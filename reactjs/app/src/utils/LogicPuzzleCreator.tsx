@@ -121,24 +121,3 @@ export const generateClickableMatrix = (matrix: number, height: number, width: n
     })()}
     </tbody>
   </table>);
-
-export function generateVoidMatrix(height: number, width: number, setOveredCell: (arg0: number[]) => void): ReactElement {
-  return (
-    <tbody className="void" onPointerEnter={() => setOveredCell([-1, -1, -1])}>
-    {(() => {
-      const rows: Array<ReactElement> = [];
-
-      for (let i = 0; i < height; i++) {
-        const columns: Array<ReactElement> = [];
-
-        for (let j = 0; j < width; j++)
-          columns.push(<td key={j}></td>);
-
-        rows.push(<tr key={i}>{columns}</tr>);
-      }
-
-      return rows;
-    })()}
-    </tbody>
-  );
-}
