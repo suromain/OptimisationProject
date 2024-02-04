@@ -2,13 +2,14 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     align-content: end;
-    width: 40em;
+    width: 36em;
+    font-size: 90%;
 
     table {
         text-align: center;
         table-layout: fixed;
         border-collapse: collapse;
-        width: 10em;
+        width: 9em;
 
         .overed {
             background-color: #505050;
@@ -20,13 +21,13 @@
         }
 
         .void {
-            height: 10em;
-            width: 10em;
+            height: 9em;
+            width: 9em;
         }
 
         .left-side {
-            width: 10em;
-            height: 10em;
+            height: 9em;
+            width: 9em;
 
             tr {
                 white-space: nowrap;
@@ -55,8 +56,8 @@
         }
 
         .top-side {
-            width: 10em;
-            height: 10em;
+            height: 9em;
+            width: 9em;
 
             tr {
                 white-space: nowrap;
@@ -84,8 +85,8 @@
         }
 
         .clickable {
-            width: 10em;
-            height: 10em;
+            height: 9em;
+            width: 9em;
 
             tr {
                 height: 20%;
