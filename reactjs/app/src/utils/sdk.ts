@@ -1,8 +1,12 @@
 import axios from "axios";
-import { SolverResponse } from "../types/SolverResponse";
+import { ConstraintsResponse, SolverResponse } from "../types/SolverResponse";
 import { ZebraSolution } from "../types/ZebraSolution";
 import { PersonalComputerSolution } from "../types/PersonalComputerSolution";
-import { CustomProblem, CustomProblemSolution } from "../types/CustomProblem";
+import {
+  CustomProblem,
+  CustomProblemSolution,
+} from "../types/CustomProblem.ts";
+import {MovieBuffsSolution} from "../types/MovieBuffsSolution.ts";
 
 const client = axios.create({
   baseURL: "http://localhost:8080",
@@ -11,14 +15,15 @@ const client = axios.create({
 const sdk = {
   zebra: {
     checkSolution: async (solution: ZebraSolution): Promise<SolverResponse> => {
-      const { data } = await client.post<SolverResponse>(
-        "/api/zebra",
-        solution
-      );
+      const { data } = await client.post("/api/zebra", solution);
       return data;
     },
   },
   personalComputer: {
+    getConstraints: async (): Promise<ConstraintsResponse> => {
+      const { data } = await client.get("/api/personal-computer");
+      return data;
+    },
     checkSolution: async (
       solution: PersonalComputerSolution
     ): Promise<SolverResponse> => {
@@ -29,37 +34,49 @@ const sdk = {
       return data;
     },
   },
-  custom: {
-    // TODO: remove the mock when back is done
-    create: async (customProblem: CustomProblem): Promise<string> => {
-      const { constraints, description, name } = customProblem;
-      const { data } = await client.post<{ id: number }>("/api/custom-puzzle", {
-        constraints,
-        description,
-        name,
-      });
-      return String(data.id);
+  movieBuffs: {
+    getConstraints: async (): Promise<ConstraintsResponse> => {
+      const { data } = await client.get("/api/movie-buffs");
+      return data;
     },
-    solve: async (
-      id: string,
-      solution: CustomProblemSolution
-    ): Promise<boolean> => {
-      const { data } = await client.post<boolean>(
-        `/api/custom-puzzle/${id}`,
+    checkSolution: async (
+      solution: MovieBuffsSolution
+    ): Promise<SolverResponse> => {
+      const { data } = await client.post<SolverResponse>(
+        "/api/movie-buffs",
         solution
       );
       return data;
     },
-    // TODO: remove the mock when the back is done
+  },
+  custom: {
+    create: async (customProblem: CustomProblem): Promise<string> => {
+      const { data } = await client.post<{ id: number }>(
+        "/api/custom-puzzle",
+        customProblem
+      );
+      return String(data.id);
+    },
+    checkSolution: async (
+      id: string,
+      solution: CustomProblemSolution
+    ): Promise<boolean> => {
+      const { data } = await client.post<{ correct: boolean }>(
+        `/api/custom-puzzle/${id}`,
+        solution
+      );
+      return data.correct;
+    },
     get: async (id: string): Promise<CustomProblem & { id: number }> => {
       const { data } = await client.get<CustomProblem & { id: number }>(
         `/api/custom-puzzle/${id}`
       );
-      data.operands = {
-        names: ["Sarah", "Jean", "Pierre"],
-        places: ["Angers", "Paris", "Bangkok"],
-        objects: ["Crayon", "Ordinateur", "Briquet"],
-      };
+      return data;
+    },
+    list: async (): Promise<(CustomProblem & { id: string })[]> => {
+      const { data } = await client.get<(CustomProblem & { id: string })[]>(
+        "/api/custom-puzzle"
+      );
       return data;
     },
   },

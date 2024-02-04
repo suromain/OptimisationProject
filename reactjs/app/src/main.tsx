@@ -3,11 +3,14 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Error from "./components/error.tsx";
-import Home from "./components/home.tsx";
-import PersonalComputer from "./components/personal-computer.tsx";
+import Error from "./components/Error.tsx";
+import Home from "./components/Home.tsx";
+import PersonalComputer from "./components/PersonalComputer.tsx";
 import Zebra from "./components/zebra/Zebra.tsx";
 import CustomProblem from "./components/custom/CustomProblem.tsx";
+import CustomProblems from "./components/custom/CustomProblems.tsx";
+import sdk from "./utils/sdk.ts";
+import MovieBuffs from "./components/MovieBuffs.tsx";
 
 const router = createBrowserRouter([
   {
@@ -15,29 +18,40 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <Error />,
     children: [
+      { path: "", element: <Home /> },
       {
-        path: "/",
-        element: <Home />,
-      },
-      {
-        path: "/puzzle/zebra",
+        path: "puzzle/zebra",
         element: <Zebra />,
       },
       {
-        path: "/puzzle/personal-computer",
+        path: "puzzle/personal-computer",
         element: <PersonalComputer />,
+        loader: async () => {
+          const api = sdk.personalComputer;
+          const response = await api.getConstraints();
+          return {constraints: response.constraints};
+        }
       },
       {
-        path: "/custom/:id",
+        path: "puzzle/movie-buffs",
+        element: <MovieBuffs />,
+        loader: async () => {
+          const api = sdk.movieBuffs;
+          const response = await api.getConstraints();
+          return {constraints: response.constraints};
+        }
+      },
+      {
+        path: "custom/:id",
         element: <CustomProblem />,
       },
+      { path: "custom", element: <CustomProblems /> },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
     <RouterProvider router={router} />
   </React.StrictMode>
 );

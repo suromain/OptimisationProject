@@ -1,0 +1,32 @@
+.logo {
+    width: 20%;
+    padding: 0.5em;
+}
+
+.menu {
+    height: 2.5em;
+    display: flex;
+    margin-bottom: 1em;
+    justify-content: center;
+    background-color: black;
+
+    .container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 80%;
+        font-size: 1.1em;
+        font-weight: bold;
+        /*color: white;*/
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #d0d0d0;
+        }
+
+    }
+}

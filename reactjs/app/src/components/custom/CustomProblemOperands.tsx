@@ -1,52 +1,74 @@
-import { FC, useCallback } from "react";
-import { Properties } from "../../types/CustomProblem";
+import { FC, useCallback, useMemo } from "react";
+import { CustomProblemSolution, Operands } from "../../types/CustomProblem";
 import CustomProblemField from "./CustomProblemField";
 
 interface Props {
-  properties: Properties;
-  onPropertiesChange: (newProperties: Properties) => void;
+  operands: Operands;
+  onOperandsChange: (newOperands: Operands) => void;
+  solution: CustomProblemSolution;
+  onSolutionChange: (newSolution: CustomProblemSolution) => void;
   editMode: boolean;
+  disabled: boolean;
 }
 
-const CustomProblemProperties: FC<Props> = ({
-  properties,
-  onPropertiesChange,
+const CustomProblemOperands: FC<Props> = ({
+  operands,
+  onOperandsChange,
+  solution,
+  onSolutionChange,
   editMode,
+  disabled,
 }) => {
+  const values = useMemo(
+    () => (editMode ? operands : solution),
+    [editMode, operands, solution]
+  );
+
+  const onChange = useCallback(
+    (newValues: Operands) => {
+      if (editMode) {
+        onOperandsChange(newValues);
+      } else {
+        onSolutionChange(newValues);
+      }
+    },
+    [editMode, onOperandsChange, onSolutionChange]
+  );
+
   const handleNameChange = useCallback(
     (idx: number) => (newValue: string) => {
-      onPropertiesChange({
-        ...properties,
-        names: properties.names.map((name, nameIdx) =>
+      onChange({
+        ...values,
+        names: values.names.map((name, nameIdx) =>
           idx === nameIdx ? newValue : name
         ),
       });
     },
-    [properties, onPropertiesChange]
+    [values, onChange]
   );
 
   const handlePlaceChange = useCallback(
     (idx: number) => (newValue: string) => {
-      onPropertiesChange({
-        ...properties,
-        places: properties.places.map((place, placeIdx) =>
+      onChange({
+        ...values,
+        places: values.places.map((place, placeIdx) =>
           idx === placeIdx ? newValue : place
         ),
       });
     },
-    [properties, onPropertiesChange]
+    [values, onChange]
   );
 
   const handleObjectChange = useCallback(
     (idx: number) => (newValue: string) => {
-      onPropertiesChange({
-        ...properties,
-        objects: properties.objects.map((object, objectIdx) =>
+      onChange({
+        ...values,
+        objects: values.objects.map((object, objectIdx) =>
           idx === objectIdx ? newValue : object
         ),
       });
     },
-    [properties, onPropertiesChange]
+    [values, onChange]
   );
 
   return (
@@ -59,13 +81,14 @@ const CustomProblemProperties: FC<Props> = ({
         }}
       >
         <p style={{ width: "80px" }}>Noms : </p>
-        {properties.names.map((name, idx) => (
+        {values.names.map((name, idx) => (
           <CustomProblemField
             key={`name${idx}`}
             value={name}
             onChange={handleNameChange(idx)}
             mode={editMode ? "input" : "select"}
-            options={properties.names}
+            options={operands.names}
+            disabled={disabled}
           />
         ))}
       </div>
@@ -77,13 +100,14 @@ const CustomProblemProperties: FC<Props> = ({
         }}
       >
         <p style={{ width: "80px" }}>Lieux : </p>
-        {properties.places.map((place, idx) => (
+        {values.places.map((place, idx) => (
           <CustomProblemField
             key={`place${idx}`}
             value={place}
             onChange={handlePlaceChange(idx)}
             mode={editMode ? "input" : "select"}
-            options={properties.places}
+            options={operands.places}
+            disabled={disabled}
           />
         ))}
       </div>
@@ -95,13 +119,14 @@ const CustomProblemProperties: FC<Props> = ({
         }}
       >
         <p style={{ width: "80px" }}>Objets : </p>
-        {properties.objects.map((object, idx) => (
+        {values.objects.map((object, idx) => (
           <CustomProblemField
             key={`object${idx}`}
             value={object}
             onChange={handleObjectChange(idx)}
             mode={editMode ? "input" : "select"}
-            options={properties.objects}
+            options={operands.objects}
+            disabled={disabled}
           />
         ))}
       </div>
@@ -109,4 +134,4 @@ const CustomProblemProperties: FC<Props> = ({
   );
 };
 
-export default CustomProblemProperties;
+export default CustomProblemOperands;

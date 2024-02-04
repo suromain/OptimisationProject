@@ -27,7 +27,7 @@ from marshmallow import ValidationError
 
 from app.db.db import get_db
 import json
-from app.model.movie_buff.constraints import movie_buff_constraints
+from app.model.movie_buff.constraints import mb_constraints
 from app.model.movie_buff.solver import solve as solve_movie
 from app.validation.movie_buff import MovieBuffSchema
 
@@ -74,6 +74,11 @@ def zebra():
         return jsonify({"message": "Validation failed", "error": str(e)}), 400
 
 
+@api_blueprint.route("/personal-computer", methods=["GET"])
+def personal_computer_constraints():
+    return jsonify({"constraints": pc_constraints[1:]}), 200
+
+
 @api_blueprint.route("/personal-computer", methods=["POST"])
 def personal_computer():
     try:
@@ -85,6 +90,7 @@ def personal_computer():
             user_solution["prices"],
             user_solution["monitors"],
             user_solution["hardDisks"],
+            user_solution["andrews_choice"]
         )
 
         response = []
@@ -129,7 +135,7 @@ def create_custom_puzzle():
     try:
         data: CustomCreate = custom_create_schema.load(json_data)
     except ValidationError as err:
-        return err.messages, 422
+        return jsonify(err.messages), 400
 
     content = {
         "constraints": json_data["constraints"],
@@ -205,7 +211,7 @@ def submit_answer_custom_puzzle(id: int):
     try:
         data: CustomAnswer = custom_answer_schema.load(json_data)
     except ValidationError as err:
-        return err.messages, 422
+        return err.messages, 400
 
     db = get_db()
 
@@ -228,25 +234,30 @@ def submit_answer_custom_puzzle(id: int):
     return ({"correct": result}, 200)
 
 
-@api_blueprint.route("/movie-buff", methods=["POST"])
+@api_blueprint.route("/movie-buffs", methods=["GET"])
+def movie_buff_constraints():
+    return jsonify({"constraints": mb_constraints[1:]}), 200
+
+
+@api_blueprint.route("/movie-buffs", methods=["POST"])
 def movie_buff():
     try:
         data = request.get_json()
         schema = MovieBuffSchema()
         user_solution = schema.load(data)
+
         success_statuses = solve_movie(
             user_solution["members"],
             user_solution["movies"],
             user_solution["days"],
-            user_solution["hours"],
-        )
+            user_solution["hours"])
 
         response = []
         for i in range(success_statuses.__len__()):
             response.append(
                 {
                     "success": success_statuses[i],
-                    "constraint": movie_buff_constraints[i],
+                    "constraint": mb_constraints[i],
                 }
             )
 

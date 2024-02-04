@@ -1,3 +1,5 @@
+import "../../styles/zebra.css";
+import "../../styles/puzzle.css";
 import { FC, useCallback, useEffect, useState } from "react";
 import {
   AllAges,
@@ -45,9 +47,20 @@ export const Zebra: FC = () => {
   }, [response]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "2vh" }}>
-      <ZebraForm solution={solution} onChange={handleSolutionChange} />
-      <ZebraHints response={response} />
+    <div className="main-container">
+      <div className="header-container">
+        <div className="title">
+          <h1>Pasta and Wine</h1>
+        </div>
+        <p className="description">
+          Five friends are side by side planning a dinner together. Each one enjoys different kinds of pasta and wines
+          from different countries. Figure out which pasta Holly likes the most.
+        </p>
+      </div>
+      <div className="puzzle-container">
+        <ZebraForm solution={solution} onChange={handleSolutionChange}/>
+        <ZebraHints response={response}/>
+      </div>
     </div>
   );
 };

@@ -15,8 +15,6 @@ import {
   ZebraSolution,
 } from "../../types/ZebraSolution";
 
-import "./ZebraForm.css";
-
 interface Props {
   solution: ZebraSolution;
   onChange: (newSolution: ZebraSolution) => void;
@@ -102,11 +100,15 @@ const ZebraForm: FC<Props> = ({ solution, onChange }) => {
   );
 
   return (
-    <div className="zebra_container">
-      <div className="zebra_select_list">
+    <div className="options">
+      <div className="row">
         <label>TShirts: </label>
         {solution.tshirts.map((tshirt, idx) => (
-          <select key={idx} value={tshirt} onChange={handleTShirtChange(idx)}>
+          <select
+            key={idx}
+            value={tshirt}
+            onChange={handleTShirtChange(idx)}
+          >
             {AllTshirts.map((option) => (
               <option key={option} value={option}>
                 {option}
@@ -115,10 +117,14 @@ const ZebraForm: FC<Props> = ({ solution, onChange }) => {
           </select>
         ))}
       </div>
-      <div className="zebra_select_list">
+      <div className="row">
         <label>Names: </label>
         {solution.names.map((name, idx) => (
-          <select key={idx} value={name} onChange={handleNameChange(idx)}>
+          <select
+            key={idx}
+            value={name}
+            onChange={handleNameChange(idx)}
+          >
             {AllNames.map((option) => (
               <option key={option} value={option}>
                 {option}
@@ -127,10 +133,14 @@ const ZebraForm: FC<Props> = ({ solution, onChange }) => {
           </select>
         ))}
       </div>
-      <div className="zebra_select_list">
+      <div className="row">
         <label>Surnames: </label>
         {solution.surnames.map((surname, idx) => (
-          <select key={idx} value={surname} onChange={handleSurnameChange(idx)}>
+          <select
+            key={idx}
+            value={surname}
+            onChange={handleSurnameChange(idx)}
+          >
             {AllSurnames.map((option) => (
               <option key={option} value={option}>
                 {option}
@@ -139,10 +149,14 @@ const ZebraForm: FC<Props> = ({ solution, onChange }) => {
           </select>
         ))}
       </div>
-      <div className="zebra_select_list">
+      <div className="row">
         <label>Pastas: </label>
         {solution.pastas.map((pasta, idx) => (
-          <select key={idx} value={pasta} onChange={handlePastaChange(idx)}>
+          <select
+            key={idx}
+            value={pasta}
+            onChange={handlePastaChange(idx)}
+          >
             {AllPastas.map((option) => (
               <option key={option} value={option}>
                 {option}
@@ -151,10 +165,14 @@ const ZebraForm: FC<Props> = ({ solution, onChange }) => {
           </select>
         ))}
       </div>
-      <div className="zebra_select_list">
+      <div className="row">
         <label>Wines: </label>
         {solution.wines.map((wine, idx) => (
-          <select key={idx} value={wine} onChange={handleWineChange(idx)}>
+          <select
+            key={idx}
+            value={wine}
+            onChange={handleWineChange(idx)}
+          >
             {AllWines.map((option) => (
               <option key={option} value={option}>
                 {option}
@@ -163,10 +181,14 @@ const ZebraForm: FC<Props> = ({ solution, onChange }) => {
           </select>
         ))}
       </div>
-      <div className="zebra_select_list">
+      <div className="row">
         <label>Ages: </label>
         {solution.ages.map((age, idx) => (
-          <select key={idx} value={age} onChange={handleAgeChange(idx)}>
+          <select
+            key={idx}
+            value={age}
+            onChange={handleAgeChange(idx)}
+          >
             {AllAges.map((option) => (
               <option key={option} value={option}>
                 {option}

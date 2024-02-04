@@ -5,6 +5,7 @@ interface Props {
   options?: string[];
   value: string;
   onChange: (newValue: string) => void;
+  disabled: boolean;
 }
 
 const CustomProblemField: FC<Props> = ({
@@ -12,6 +13,7 @@ const CustomProblemField: FC<Props> = ({
   options = [],
   value,
   onChange,
+  disabled,
 }) => {
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -22,7 +24,12 @@ const CustomProblemField: FC<Props> = ({
   return (
     <>
       {mode === "input" && (
-        <input type="text" value={value} onChange={handleChange} />
+        <input
+          type="text"
+          disabled={disabled}
+          value={value}
+          onChange={handleChange}
+        />
       )}
       {mode === "select" && (
         <select

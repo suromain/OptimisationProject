@@ -6,13 +6,19 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Comparator, Constraint, Properties } from "../../types/CustomProblem";
-import CustomProblemProperties from "./CustomProblemProperties";
+import {
+  Comparator,
+  Constraint,
+  CustomProblemSolution,
+  OperandType,
+  Operands,
+} from "../../types/CustomProblem";
 import CustomProblemConstraint from "./CustomProblemConstraint";
 import sdk from "../../utils/sdk";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useParams } from "react-router-dom";
+import CustomProblemOperands from "./CustomProblemOperands";
 
 const CustomProblem: FC = () => {
   const history = useNavigate();
@@ -20,18 +26,18 @@ const CustomProblem: FC = () => {
 
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [properties, setProperties] = useState<Properties>({
+  const [operands, setOperands] = useState<Operands>({
     names: ["Sarah", "Jean", "Pierre"],
     places: ["Angers", "Paris", "Bangkok"],
     objects: ["Crayon", "Ordinateur", "Briquet"],
   });
+  const [solution, setSolution] = useState<Operands>({
+    names: [],
+    places: [],
+    objects: [],
+  });
   const [constraints, setConstraints] = useState<Constraint[]>([]);
   const [solved, setSolved] = useState<boolean>(false);
-
-  const allProperties = useMemo(
-    () => [...properties.names, ...properties.objects, ...properties.places],
-    [properties]
-  );
 
   const editMode = useMemo(() => id === "new", [id]);
 
@@ -46,15 +52,22 @@ const CustomProblem: FC = () => {
     []
   );
 
-  const handlePropertiesChange = useCallback(
-    async (newProperties: Properties) => {
-      setProperties(newProperties);
-      if (!editMode) {
-        const solved = await sdk.custom.solve("1", properties);
-        setSolved(solved);
+  const handleOperandsChange = useCallback(
+    async (newOperands: Operands) => {
+      if (editMode) {
+        setOperands(newOperands);
       }
     },
-    [editMode, properties]
+    [editMode]
+  );
+
+  const handleSolutionChange = useCallback(
+    async (newSolution: CustomProblemSolution) => {
+      if (!editMode) {
+        setSolution(newSolution);
+      }
+    },
+    [editMode]
   );
 
   const handleConstraintChange = useCallback(
@@ -73,11 +86,15 @@ const CustomProblem: FC = () => {
       ...oldConstraints,
       {
         negative: false,
-        atom: { comparator: Comparator.EQ, operand: allProperties[0] ?? "" },
+        atom: {
+          comparator: Comparator.EQ,
+          operand: operands.names[0] ?? "",
+          operand_type: OperandType.NAME,
+        },
         next: null,
       },
     ]);
-  }, [allProperties]);
+  }, [operands.names]);
 
   const handleDeleteConstraint = useCallback(
     (idx: number) => () => {
@@ -98,114 +115,148 @@ const CustomProblem: FC = () => {
         name: name,
         description: description,
         constraints: constraints,
-        operands: properties,
+        operands: operands,
       });
       history(`/custom/${id}`);
     } catch (e) {
       alert("Erreur lors de l'enregistrement du problème");
     }
-  }, [constraints, description, history, name, properties]);
+  }, [constraints, description, history, name, operands]);
 
   const fetchProblem = useCallback(async () => {
     if (id !== undefined && id !== "new") {
       const problem = await sdk.custom.get(id);
       setConstraints(problem.constraints);
       setDescription(problem.description);
-      setProperties(problem.operands);
+      setOperands(problem.operands);
+      setSolution(problem.operands);
       setName(problem.name);
+    } else {
+      setConstraints([]);
+      setDescription("");
+      setOperands({
+        names: ["Sarah", "Jean", "Pierre"],
+        places: ["Angers", "Paris", "Bangkok"],
+        objects: ["Crayon", "Ordinateur", "Briquet"],
+      });
+      setSolution({
+        names: [],
+        places: [],
+        objects: [],
+      });
+      setName("");
     }
   }, [id]);
 
+  const checkSolution = useCallback(async () => {
+    if (id !== undefined && !editMode && solution.names.length > 0) {
+      setSolved(await sdk.custom.checkSolution(id, solution));
+    }
+  }, [editMode, id, solution]);
+
   useEffect(() => {
-    fetchProblem();
+    void fetchProblem();
   }, [fetchProblem]);
 
+  useEffect(() => {
+    void checkSolution();
+  }, [checkSolution]);
+
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "50vw",
-        gap: "10px",
-      }}
-    >
+    <div style={{ display: "flex", justifyContent: "center" }}>
       <div
         style={{
           display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
+          flexDirection: "column",
+          width: "50vw",
+          gap: "10px",
         }}
       >
-        <label style={{ width: "150px" }} htmlFor="name">
-          Nom :
-        </label>
-        <input
-          style={{ flex: 1 / 2 }}
-          id="name"
-          type="text"
-          value={name}
-          onChange={handleNameChange}
-          disabled={!editMode}
-        />
-      </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
-        }}
-      >
-        <label style={{ width: "150px" }} htmlFor="description">
-          Description :
-        </label>
-        <textarea
-          style={{ flex: 1 / 2 }}
-          id="description"
-          value={description}
-          onChange={handleDescriptionChange}
-          disabled={!editMode}
-        />
-      </div>
-      <CustomProblemProperties
-        properties={properties}
-        onPropertiesChange={handlePropertiesChange}
-        editMode={editMode}
-      />
-      {constraints.map((constraint, idx) => (
         <div
-          key={idx}
           style={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "space-between",
+            justifyContent: "space-around",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "row", gap: "4px" }}>
-            <CustomProblemConstraint
-              constraint={constraint}
-              properties={allProperties}
-              onConstraintChange={handleConstraintChange(idx)}
-              onDelete={handleDeleteConstraint(idx)}
-              editMode={editMode}
-            />
-          </div>
-          {editMode && (
-            <button
-              style={{ marginLeft: "5px" }}
-              onClick={handleDeleteConstraint(idx)}
-            >
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-          )}
+          <label style={{ width: "150px" }} htmlFor="name">
+            Nom :
+          </label>
+          <input
+            style={{ flex: 1 / 2 }}
+            id="name"
+            type="text"
+            value={name}
+            onChange={handleNameChange}
+            disabled={!editMode}
+          />
         </div>
-      ))}
-      {editMode && (
-        <>
-          <button onClick={handleAddConstraint}>Ajouter une contrainte</button>
-          <button onClick={handleSubmit}>Enregistrer</button>
-        </>
-      )}
-      {!editMode && <p>{solved ? "resolu" : "non resolu"}</p>}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
+        >
+          <label style={{ width: "150px" }} htmlFor="description">
+            Description :
+          </label>
+          <textarea
+            style={{ flex: 1 / 2 }}
+            id="description"
+            value={description}
+            onChange={handleDescriptionChange}
+            disabled={!editMode}
+          />
+        </div>
+        <CustomProblemOperands
+          operands={operands}
+          solution={solution}
+          onOperandsChange={handleOperandsChange}
+          onSolutionChange={handleSolutionChange}
+          editMode={editMode}
+          disabled={constraints.length > 0}
+        />
+        {editMode &&
+          constraints.map((constraint, idx) => (
+            <div
+              key={idx}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <div
+                style={{ display: "flex", flexDirection: "row", gap: "4px" }}
+              >
+                <CustomProblemConstraint
+                  constraint={constraint}
+                  operands={operands}
+                  onConstraintChange={handleConstraintChange(idx)}
+                  onDelete={handleDeleteConstraint(idx)}
+                />
+              </div>
+              {editMode && (
+                <button
+                  style={{ marginLeft: "5px" }}
+                  onClick={handleDeleteConstraint(idx)}
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+              )}
+            </div>
+          ))}
+        {editMode && (
+          <>
+            <button onClick={handleAddConstraint}>
+              Ajouter une contrainte
+            </button>
+            <button onClick={handleSubmit}>Enregistrer</button>
+          </>
+        )}
+        {!editMode && <p>{solved ? "resolu" : "non resolu"}</p>}
+      </div>
     </div>
   );
 };

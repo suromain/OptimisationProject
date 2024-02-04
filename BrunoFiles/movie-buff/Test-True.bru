@@ -5,17 +5,27 @@ meta {
 }
 
 post {
-  url: {{baseUrl}}/movie-buff
+  url: {{baseUrl}}/movie-buffs
   body: json
   auth: none
 }
 
 body:json {
   {
+      "members" :["Jessica", "Laurie", "Mark", "Mary", "Sally"],
+      "movies" : ["DonnieBrasco", "TheRecruit", "Scarecrow", "Minutes88", "Scarface"],
+      "days" : ["Wednesday", "Friday", "Tuesday", "Monday", "Thursday"],
+      "hours" : [90, 35, 105, 80, 40]
+  }
+  
+  
+  /*
+  {
     "members" :["Sally", "Mark", "Jessica", "Laurie", "Mary"],
     "movies" : ["Scarface","Scarecrow","DonnieBrasco", "TheRecruit", "Minutes88"],
     "days" : ["Thursday", "Tuesday", "Wednesday", "Friday", "Monday"],
     "hours" : [40, 105, 90, 35, 80]
   }
+  */
   
 }

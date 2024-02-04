@@ -1,18 +1,9 @@
-import {useEffect} from 'react';
-
-
 function Home() {
-
-  useEffect(() => {
-
-  }, [])
-
   return (
-    <div>
+    <div style={{ minHeight: "750px" }}>
       <h1>Home</h1>
     </div>
-  )
+  );
 }
 
 export default Home;
-

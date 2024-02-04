@@ -1,14 +1,20 @@
 import { ChangeEvent, FC, useCallback } from "react";
-import { Comparator, Connector, Constraint } from "../../types/CustomProblem";
+import {
+  Comparator,
+  Connector,
+  Constraint,
+  OperandType,
+  Operands,
+  getOperandType,
+} from "../../types/CustomProblem";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
   constraint: Constraint;
   onConstraintChange: (newConstraint: Constraint) => void;
-  properties: string[];
+  operands: Operands;
   onDelete: () => void;
-  editMode: boolean;
 }
 
 const SELECT_WIDTH = "100px";
@@ -16,9 +22,8 @@ const SELECT_WIDTH = "100px";
 const CustomProblemConstraint: FC<Props> = ({
   constraint,
   onConstraintChange,
-  properties,
+  operands,
   onDelete,
-  editMode,
 }) => {
   const handleSignChange = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
@@ -41,10 +46,14 @@ const CustomProblemConstraint: FC<Props> = ({
     (e: ChangeEvent<HTMLSelectElement>) => {
       onConstraintChange({
         ...constraint,
-        atom: { ...constraint.atom, operand: e.target.value },
+        atom: {
+          ...constraint.atom,
+          operand: e.target.value,
+          operand_type: getOperandType(operands, e.target.value),
+        },
       });
     },
-    [constraint, onConstraintChange]
+    [constraint, onConstraintChange, operands]
   );
 
   const handleNextConnectorChange = useCallback(
@@ -78,14 +87,18 @@ const CustomProblemConstraint: FC<Props> = ({
         next: {
           connector: Connector.AND,
           constraint: {
-            atom: { comparator: Comparator.EQ, operand: properties[0] },
+            atom: {
+              comparator: Comparator.EQ,
+              operand: operands.names[0] ?? "",
+              operand_type: OperandType.NAME,
+            },
             negative: false,
             next: null,
           },
         },
       });
     }
-  }, [constraint, onConstraintChange, properties]);
+  }, [constraint, onConstraintChange, operands]);
 
   const handleDeleteNext = useCallback(() => {
     if (constraint.next !== null) {
@@ -106,7 +119,6 @@ const CustomProblemConstraint: FC<Props> = ({
         value={constraint.negative ? "NOT" : " "}
         onChange={handleSignChange}
         style={{ width: SELECT_WIDTH }}
-        disabled={!editMode}
       >
         <option value="NOT">NOT</option>
         <option value=" "> </option>
@@ -116,7 +128,6 @@ const CustomProblemConstraint: FC<Props> = ({
         value={constraint.atom.comparator}
         onChange={handleAtomComparatorChange}
         style={{ width: SELECT_WIDTH }}
-        disabled={!editMode}
       >
         {Object.values(Comparator).map((comparator, idx) => (
           <option key={idx} value={comparator}>
@@ -129,15 +140,24 @@ const CustomProblemConstraint: FC<Props> = ({
         value={constraint.atom.operand}
         onChange={handleAtomOperandChange}
         style={{ width: SELECT_WIDTH }}
-        disabled={!editMode}
       >
-        {properties.map((property, idx) => (
-          <option key={idx} value={property}>
-            {property}
+        {operands.names.map((operand, idx) => (
+          <option key={idx} value={operand}>
+            {`nom[${operand}]`}
+          </option>
+        ))}
+        {operands.objects.map((operand, idx) => (
+          <option key={idx} value={operand}>
+            {`objet[${operand}]`}
+          </option>
+        ))}
+        {operands.places.map((operand, idx) => (
+          <option key={idx} value={operand}>
+            {`lieu[${operand}]`}
           </option>
         ))}
       </select>
-      {constraint.next === null && editMode && (
+      {constraint.next === null && (
         <button style={{ marginLeft: "5px" }} onClick={handleDelete}>
           <FontAwesomeIcon icon={faMinus} />
         </button>
@@ -150,7 +170,6 @@ const CustomProblemConstraint: FC<Props> = ({
             style={{
               width: SELECT_WIDTH,
             }}
-            disabled={!editMode}
           >
             {Object.values(Connector).map((connector, idx) => (
               <option value={connector} key={idx}>
@@ -161,13 +180,12 @@ const CustomProblemConstraint: FC<Props> = ({
           <CustomProblemConstraint
             constraint={constraint.next.constraint}
             onConstraintChange={handleNextConstraintChange}
-            properties={properties}
+            operands={operands}
             onDelete={handleDeleteNext}
-            editMode={editMode}
           />
         </>
       )}
-      {constraint.next === null && editMode && (
+      {constraint.next === null && (
         <button style={{ marginLeft: "5px" }} onClick={handleAddNext}>
           <FontAwesomeIcon icon={faPlus} />
         </button>

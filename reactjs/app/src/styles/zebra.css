@@ -1,0 +1,45 @@
+.puzzle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 3em;
+    gap: 30px;
+    width: 80%;
+
+    .options {
+        display: flex;
+        flex-direction: column;
+        width: 70%;
+        gap: 1em;
+
+        .row {
+            display: flex;
+            flex-direction: row;
+            gap: 1em;
+
+            label {
+                flex: 1;
+                text-align: left;
+            }
+
+            select {
+                flex: 1;
+            }
+        }
+    }
+
+    .hints {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 70%;
+
+        p {
+            flex-grow: 1;
+            flex-basis: 40%;
+            box-sizing: border-box;
+            margin: 0 1em 0.5em 0;
+        }
+    }
+}
