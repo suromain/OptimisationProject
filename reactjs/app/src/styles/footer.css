@@ -1,0 +1,17 @@
+.line {
+    margin-top: 2em;
+    border-top: 2px solid white;
+}
+
+.footer-container {
+    margin: 2em;
+
+    a {
+        color: white;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #d0d0d0;
+    }
+}
