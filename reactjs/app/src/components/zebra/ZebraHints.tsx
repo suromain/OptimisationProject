@@ -7,18 +7,12 @@ interface Props {
 
 const ZebraHints: FC<Props> = ({ response }) => {
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", flexDirection: "row" }}>
+    <div className="hints">
       {response.map((item) => (
         <p
           key={item.constraint}
           style={{
-            textDecoration: item.success ? undefined : "line-through",
-            flexGrow: 1,
-            flexBasis: "40%",
-            boxSizing: "border-box",
-            margin: "0px",
-            height: "40px",
-            marginRight: "5px",
+            textDecoration: item.success ? undefined : "line-through"
           }}
         >
           {item.constraint}

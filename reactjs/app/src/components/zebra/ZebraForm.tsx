@@ -100,13 +100,12 @@ const ZebraForm: FC<Props> = ({ solution, onChange }) => {
   );
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-      <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
-        <label style={{ textAlign: "left", flex: 1 }}>TShirts: </label>
+    <div className="options">
+      <div className="row">
+        <label>TShirts: </label>
         {solution.tshirts.map((tshirt, idx) => (
           <select
             key={idx}
-            style={{ flex: 1 }}
             value={tshirt}
             onChange={handleTShirtChange(idx)}
           >
@@ -118,12 +117,11 @@ const ZebraForm: FC<Props> = ({ solution, onChange }) => {
           </select>
         ))}
       </div>
-      <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
-        <label style={{ textAlign: "left", flex: 1 }}>Names: </label>
+      <div className="row">
+        <label>Names: </label>
         {solution.names.map((name, idx) => (
           <select
             key={idx}
-            style={{ flex: 1 }}
             value={name}
             onChange={handleNameChange(idx)}
           >
@@ -135,12 +133,11 @@ const ZebraForm: FC<Props> = ({ solution, onChange }) => {
           </select>
         ))}
       </div>
-      <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
-        <label style={{ textAlign: "left", flex: 1 }}>Surnames: </label>
+      <div className="row">
+        <label>Surnames: </label>
         {solution.surnames.map((surname, idx) => (
           <select
             key={idx}
-            style={{ flex: 1 }}
             value={surname}
             onChange={handleSurnameChange(idx)}
           >
@@ -152,12 +149,11 @@ const ZebraForm: FC<Props> = ({ solution, onChange }) => {
           </select>
         ))}
       </div>
-      <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
-        <label style={{ textAlign: "left", flex: 1 }}>Pastas: </label>
+      <div className="row">
+        <label>Pastas: </label>
         {solution.pastas.map((pasta, idx) => (
           <select
             key={idx}
-            style={{ flex: 1 }}
             value={pasta}
             onChange={handlePastaChange(idx)}
           >
@@ -169,12 +165,11 @@ const ZebraForm: FC<Props> = ({ solution, onChange }) => {
           </select>
         ))}
       </div>
-      <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
-        <label style={{ textAlign: "left", flex: 1 }}>Wines: </label>
+      <div className="row">
+        <label>Wines: </label>
         {solution.wines.map((wine, idx) => (
           <select
             key={idx}
-            style={{ flex: 1 }}
             value={wine}
             onChange={handleWineChange(idx)}
           >
@@ -186,12 +181,11 @@ const ZebraForm: FC<Props> = ({ solution, onChange }) => {
           </select>
         ))}
       </div>
-      <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
-        <label style={{ textAlign: "left", flex: 1 }}>Ages: </label>
+      <div className="row">
+        <label>Ages: </label>
         {solution.ages.map((age, idx) => (
           <select
             key={idx}
-            style={{ flex: 1 }}
             value={age}
             onChange={handleAgeChange(idx)}
           >
