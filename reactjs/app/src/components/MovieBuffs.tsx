@@ -9,7 +9,7 @@ import {generateLeftSide, generateTopSide, generateClickableMatrix, generateVoid
 import {Days, Films, MovieBuffsSolution, Names, Times} from "../types/MovieBuffsSolution.ts";
 
 
-function PersonalComputer() {
+function MovieBuffs() {
   const height: number = 5;
   const width: number = 5;
 
@@ -19,7 +19,7 @@ function PersonalComputer() {
   const times: Array<Times> = [35, 40, 80, 90, 105];
 
   const namesLabels: Array<string> = ["Jessica", "Laurie", "Mark", "Mary", "Sally"];
-  const filmsLabels: Array<string> = ["88 Minutes", "Donnie Brasco", "Scarecrow0", "Scarface", "The Recruit"];
+  const filmsLabels: Array<string> = ["88 Minutes", "Donnie Brasco", "Scarecrow", "Scarface", "The Recruit"];
   const daysDisksLabels: Array<string> = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
   const timesLabels: Array<string> = ["7:35 pm", "7:40 pm", "8:20 pm", "8:30 pm", "8:45 pm"];
 
@@ -100,24 +100,24 @@ function PersonalComputer() {
         <div className="main-grid" onPointerLeave={() => setOveredCell([-1, -1, -1])}>
           <table>
             <tbody className="void" onPointerEnter={() => setOveredCell([-1, -1, -1])}/>
-            {generateLeftSide("Name", namesLabels, 0, overedCell, setOveredCell)}
-            {generateLeftSide("Time", timesLabels, 1, overedCell, setOveredCell)}
-            {generateLeftSide("Day", daysDisksLabels, 2, overedCell, setOveredCell)}
+            {generateLeftSide("Name", namesLabels, "white", "black", 0, overedCell, setOveredCell)}
+            {generateLeftSide("Time", timesLabels, "black", "white", 1, overedCell, setOveredCell)}
+            {generateLeftSide("Day", daysDisksLabels, "black", "white", 2, overedCell, setOveredCell)}
           </table>
           <table>
-            {generateTopSide("Film", filmsLabels, 3, overedCell, setOveredCell)}
+            {generateTopSide("Film", filmsLabels, "blue", "white", 3, overedCell, setOveredCell)}
             {generateClickableMatrix(0, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
             {generateClickableMatrix(1, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
             {generateClickableMatrix(2, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
           </table>
           <table>
-            {generateTopSide("Day", daysDisksLabels, 4, overedCell, setOveredCell)}
+            {generateTopSide("Day", daysDisksLabels, "red", "white", 4, overedCell, setOveredCell)}
             {generateClickableMatrix(3, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
             {generateClickableMatrix(4, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
             {generateVoidMatrix(height, width, setOveredCell)}
           </table>
           <table>
-            {generateTopSide("Time", timesLabels, 5, overedCell, setOveredCell)}
+            {generateTopSide("Time", timesLabels, "yellow", "black", 5, overedCell, setOveredCell)}
             {generateClickableMatrix(5, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
             {generateVoidMatrix(height, width, setOveredCell)}
             {generateVoidMatrix(height, width, setOveredCell)}
@@ -139,6 +139,9 @@ function PersonalComputer() {
                 return <></>
             })}
           </div>
+
+          <div className="line"> </div>
+
           <div>
             {constraints.map((constraint): ReactElement => {
               const index = constraints.indexOf(constraint);
@@ -160,10 +163,10 @@ function PersonalComputer() {
         <table>
           <tbody>
             <tr>
-              <th>Name</th>
-              <th>Film</th>
-              <th>Day</th>
-              <th>Time</th>
+              <th style={{background: "white", color: "black"}}>Name</th>
+              <th style={{background: "blue", color: "white"}}>Film</th>
+              <th style={{background: "red", color: "white"}}>Day</th>
+              <th style={{background: "yellow", color: "black"}}>Time</th>
             </tr>
             <tr>
               <td>{namesLabels[names.indexOf(answer.members[0])]}</td>
@@ -210,4 +213,4 @@ function PersonalComputer() {
   )
 }
 
-export default PersonalComputer;
+export default MovieBuffs;

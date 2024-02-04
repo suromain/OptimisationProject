@@ -28,7 +28,8 @@ function PersonalComputer() {
       monitors: monitors,
       processors: new Array<Processors>(5).fill(null),
       hardDisks: new Array<HardDisks>(5).fill(null),
-      prices: new Array<Prices>(5).fill(null)
+      prices: new Array<Prices>(5).fill(null),
+      andrews_choice: 3
     }
   ));
 
@@ -100,24 +101,24 @@ function PersonalComputer() {
         <div className="main-grid" onPointerLeave={() => setOveredCell([-1, -1, -1])}>
           <table>
             <tbody className="void" onPointerEnter={() => setOveredCell([-1, -1, -1])}/>
-            {generateLeftSide("Monitor", monitorsLabels, 0, overedCell, setOveredCell)}
-            {generateLeftSide("Price", pricesLabels, 1, overedCell, setOveredCell)}
-            {generateLeftSide("Hard Disk", hardDisksLabels, 2, overedCell, setOveredCell)}
+            {generateLeftSide("Monitor", monitorsLabels, "white", "black", 0, overedCell, setOveredCell)}
+            {generateLeftSide("Price", pricesLabels,  "black", "white", 1, overedCell, setOveredCell)}
+            {generateLeftSide("Hard Disk", hardDisksLabels, "black", "white", 2, overedCell, setOveredCell)}
           </table>
           <table>
-            {generateTopSide("Processor", processorsLabels, 3, overedCell, setOveredCell)}
+            {generateTopSide("Processor", processorsLabels, "blue", "white", 3, overedCell, setOveredCell)}
             {generateClickableMatrix(0, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
             {generateClickableMatrix(1, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
             {generateClickableMatrix(2, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
           </table>
           <table>
-            {generateTopSide("Hard Disk", hardDisksLabels, 4, overedCell, setOveredCell)}
+            {generateTopSide("Hard Disk", hardDisksLabels, "red", "white", 4, overedCell, setOveredCell)}
             {generateClickableMatrix(3, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
             {generateClickableMatrix(4, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
             {generateVoidMatrix(height, width, setOveredCell)}
           </table>
           <table>
-            {generateTopSide("Price", pricesLabels, 5, overedCell, setOveredCell)}
+            {generateTopSide("Price", pricesLabels, "yellow", "black", 5, overedCell, setOveredCell)}
             {generateClickableMatrix(5, height, width, puzzleGrid, setOveredCell, setPuzzleGrid, updateAnswer)}
             {generateVoidMatrix(height, width, setOveredCell)}
             {generateVoidMatrix(height, width, setOveredCell)}
@@ -139,6 +140,9 @@ function PersonalComputer() {
                 return <></>
             })}
           </div>
+
+          <div className="line"> </div>
+
           <div>
             {constraints.map((constraint): ReactElement => {
               const index = constraints.indexOf(constraint);
@@ -160,10 +164,10 @@ function PersonalComputer() {
         <table>
           <tbody>
             <tr>
-              <th>Monitor</th>
-              <th>Processor</th>
-              <th>Hard Disk</th>
-              <th>Price</th>
+              <th style={{background: "white", color: "black"}}>Monitor</th>
+              <th style={{background: "blue", color: "white"}}>Processor</th>
+              <th style={{background: "red", color: "white"}}>Hard Disk</th>
+              <th style={{background: "yellow", color: "black"}}>Price</th>
             </tr>
             <tr>
               <td>{monitorsLabels[monitors.indexOf(answer.monitors[0])]}</td>

@@ -26,10 +26,10 @@ function columnCellOvered(matrixColumn: number, labelColumn: number, overedCell:
     return false;
 }
 
-export const generateLeftSide = (header: string, labels: string[], row: number, overedCell: number[], setOveredCell: (arg0: number[]) => void): ReactElement => (
+export const generateLeftSide = (header: string, labels: string[], backgroundColor: string, color: string, row: number, overedCell: number[], setOveredCell: (arg0: number[]) => void): ReactElement => (
   <tbody className="left-side" onPointerEnter={() => setOveredCell([-1, -1, -1])}>
   <tr>
-    <th rowSpan={5}><span>{header}</span></th>
+    <th style={{background: backgroundColor, color: color}} rowSpan={5}><span>{header}</span></th>
     {rowCellOvered(row, 0, overedCell) ? <td className="overed">{labels[0]}</td> : <td>{labels[0]}</td>}
   </tr>
   <tr>
@@ -47,10 +47,10 @@ export const generateLeftSide = (header: string, labels: string[], row: number, 
   </tbody>
 );
 
-export const generateTopSide = (header: string, labels: string[], column: number, overedCell: number[], setOveredCell: (arg0: number[]) => void): ReactElement => (
+export const generateTopSide = (header: string, labels: string[], backgroundColor: string, color: string, column: number, overedCell: number[], setOveredCell: (arg0: number[]) => void): ReactElement => (
   <tbody className="top-side" onPointerEnter={() => setOveredCell([-1, -1, -1])}>
   <tr>
-    <th colSpan={5}>{header}</th>
+    <th style={{background: backgroundColor, color: color}} colSpan={5}>{header}</th>
   </tr>
   <tr>
     {columnCellOvered(column, 0, overedCell) ? <td className="overed"><span>{labels[0]}</span></td> :
