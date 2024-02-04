@@ -1,0 +1,41 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .header-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: black;
+        padding-bottom: 1.5em;
+        margin-bottom: 1em;
+        width: 100%;
+
+        .title {
+            width: 70%;
+            display: flex;
+            align-items: flex-start;
+
+            h1 {
+                font-size: 2em;
+                line-height: 1.1;
+                align-content: flex-start;
+            }
+        }
+
+        .description {
+            font-size: 1.1em;
+            text-align: justify;
+            margin: 0;
+            width: 70%;
+
+            br {
+                display: block;
+                content: "";
+                height: 1em;
+            }
+        }
+    }
+}
