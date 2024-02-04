@@ -19,6 +19,17 @@
         padding-left: 5em;
         width: 20%;
 
+        p {
+            cursor: pointer;
+            text-justify: auto;
+        }
+
+        .line {
+            margin-top: 1em;
+            margin-bottom: 1em;
+            border-top: 2px solid white;
+        }
+
         .overlined {
             text-decoration: line-through;
         }
@@ -44,6 +55,7 @@
             th {
                 color: white;
                 background-color: black;
+                border: 2px solid black;
             }
 
             td {
@@ -68,6 +80,8 @@
 
         button:disabled {
             color: gray;
+            pointer-events: none;
+            border: transparent;
         }
     }
 }
