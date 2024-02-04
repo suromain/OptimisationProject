@@ -1,6 +1,6 @@
 function Home() {
   return (
-    <div>
+    <div style={{ minHeight: "750px" }}>
       <h1>Home</h1>
     </div>
   );
