@@ -19,6 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useParams } from "react-router-dom";
 import CustomProblemOperands from "./CustomProblemOperands";
+import Confetti from "react-confetti";
 
 const CustomProblem: FC = () => {
   const history = useNavigate();
@@ -256,6 +257,7 @@ const CustomProblem: FC = () => {
           </>
         )}
         {!editMode && <p>{solved ? "resolu" : "non resolu"}</p>}
+        {!editMode && solved && <Confetti />}
       </div>
     </div>
   );
