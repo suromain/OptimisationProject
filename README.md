@@ -1,6 +1,22 @@
 # Puzzle Customizer 
-## Setup
 
+![Logo du projet, via Flaticon](./reactjs/app/public/logo.png)
+
+Projet réalisé par Romain Supiot, Chaïmaâ Touahmi, Julien Tartenson et Grégoire Bellon dans le cadre du cours d'optimisation combinatoire du M2 de l'Université d'Angers. 
+
+Dans le cadre de ce projet, 3 puzzles ont été créés.
+
+![Screenshot du premier puzzle](./readme/puzzle1.png)
+![Screenshot du second puzzle](./readme/puzzle2.png)
+
+L'application propose aussi un éditeur permettant de créer ses propres puzzles.
+![Screenshot de l'éditeur de puzzle](./readme/editeur-puzzles.png)
+
+Ces derniers sont stockés dans une base de données SQLite, et visualisables via une autre page.
+![Screenshot de la visualisation de puzzle](./readme/visualisation-puzzle.png)
+
+
+## Setup
 ### Back
 Notre version de minizinc est 2.8.3. Le projet n'a pas été testé avec une version antérieure
 
